@@ -1,0 +1,137 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+
+PATH: 
+  C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\RSA SecurID Token Common;C:\Program Files\RSA SecurID Token Common;C:\Program Files\Microsoft MPI\Bin\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Azure Data Studio\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\dotnet\;C:\Program Files\dotnet\;c:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\Git\cmd;C:\Program Files\TortoiseSVN\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Calibre2\;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\PuTTY\;C:\Program Files\Java\jdk-17\bin;;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Users\pscag\AppData\Local\pnpm;C:\Users\pscag\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\pscag\AppData\Local\Programs\Python\Python311\;C:\Program Files\RSA SecurID Token Common\;C:\Users\pscag\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\pscag\AppData\Local\Microsoft\WindowsApps;C:\Users\pscag\.dotnet\tools;C:\Users\pscag\AppData\Roaming\npm;C:\Users\pscag\AppData\Local\Yarn\bin;C:\Program Files\Java\jdk-17\bin;
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.14.2
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile 'C:\Users\pscag\AppData\Local\Yarn\Cache\v6\npm-ansi-styles-5.2.0-07449690ad45777d1924ac2abb2fc8895dba836b-integrity\node_modules\ansi-styles\index.js' -> 'C:\Proyectos\Macro\Produccion\Benefits\web\node_modules\@testing-library\dom\node_modules\ansi-styles\index.js'
+
+npm manifest: 
+  {
+  	"name": "banco-macro-fe",
+  	"private": true,
+  	"version": "0.0.0",
+  	"scripts": {
+  		"build": "vite build",
+  		"commit": "cz",
+  		"dev": "vite",
+  		"dev:share": "vite --host --port 8002",
+  		"prepare": "husky install",
+  		"preview": "vite preview",
+  		"preview:test": "start-server-and-test preview http://localhost:4173",
+  		"test": "vitest",
+  		"test:ci": "vitest run",
+  		"test:e2e": "pnpm preview:test 'cypress open'",
+  		"test:e2e:headless": "pnpm preview:test 'cypress run'",
+  		"test:e2e:ci": "vite build && pnpm preview:test 'cypress run --record'",
+  		"format": "prettier -uw --cache --ignore-path .gitignore .",
+  		"run-tsc": "tsc",
+  		"run-eslint": "eslint --cache --fix --ignore-path .gitignore --ext .ts,.tsx .",
+  		"run-stylelint": "stylelint --cache --fix --ignore-path .gitignore **/*.css",
+  		"lint": "run-p run-tsc run-eslint run-stylelint",
+  		"validate": "run-p lint test:ci test:e2e:headless"
+  	},
+  	"dependencies": {
+  		"@hookform/resolvers": "^3.3.2",
+  		"@tanstack/react-query": "4.35.3",
+  		"axios": "^1.6.2",
+  		"react": "18.2.0",
+  		"react-dom": "18.2.0",
+  		"react-hook-form": "^7.47.0",
+  		"react-multi-carousel": "^2.8.4",
+  		"react-router-dom": "6.16.0",
+  		"zod": "^3.22.4"
+  	},
+  	"devDependencies": {
+  		"@nabla/vite-plugin-eslint": "1.5.0",
+  		"@tailwindcss/forms": "0.5.6",
+  		"@testing-library/cypress": "9.0.0",
+  		"@testing-library/dom": "9.3.3",
+  		"@testing-library/jest-dom": "6.1.3",
+  		"@testing-library/react": "14.0.0",
+  		"@testing-library/user-event": "14.5.1",
+  		"@types/css-mediaquery": "0.1.2",
+  		"@types/react": "18.2.21",
+  		"@types/react-dom": "18.2.7",
+  		"@types/react-router-dom": "5.3.3",
+  		"@types/testing-library__jest-dom": "5.14.9",
+  		"@typescript-eslint/eslint-plugin": "6.7.0",
+  		"@typescript-eslint/parser": "6.7.0",
+  		"@vitejs/plugin-react": "4.0.4",
+  		"@vitest/coverage-istanbul": "0.34.4",
+  		"autoprefixer": "10.4.15",
+  		"commitizen": "4.3.0",
+  		"css-mediaquery": "0.1.2",
+  		"cypress": "13.2.0",
+  		"cz-conventional-changelog": "3.3.0",
+  		"eslint": "8.49.0",
+  		"eslint-config-airbnb": "19.0.4",
+  		"eslint-config-airbnb-base": "15.0.0",
+  		"eslint-config-airbnb-typescript": "17.1.0",
+  		"eslint-config-prettier": "9.0.0",
+  		"eslint-plugin-cypress": "2.14.0",
+  		"eslint-plugin-import": "2.28.1",
+  		"eslint-plugin-jsx-a11y": "6.7.1",
+  		"eslint-plugin-react": "7.33.2",
+  		"eslint-plugin-react-hooks": "4.6.0",
+  		"eslint-plugin-react-prefer-function-component": "3.3.0",
+  		"eslint-plugin-testing-library": "6.0.1",
+  		"eslint-plugin-unicorn": "48.0.1",
+  		"husky": "8.0.3",
+  		"jsdom": "22.1.0",
+  		"lint-staged": "14.0.1",
+  		"msw": "1.3.1",
+  		"npm-run-all": "4.1.5",
+  		"postcss": "8.4.29",
+  		"prettier": "3.0.3",
+  		"prettier-plugin-tailwindcss": "0.5.4",
+  		"start-server-and-test": "2.0.0",
+  		"stylelint": "15.10.3",
+  		"stylelint-config-prettier": "9.0.5",
+  		"stylelint-config-standard": "34.0.0",
+  		"tailwindcss": "3.3.3",
+  		"typescript": "5.2.2",
+  		"vite": "4.4.9",
+  		"vite-tsconfig-paths": "4.2.1",
+  		"vitest": "0.34.4",
+  		"whatwg-fetch": "3.6.19",
+  		"workbox-build": "7.0.0",
+  		"workbox-window": "7.0.0"
+  	},
+  	"browserslist": {
+  		"production": "Edge >= 18, Firefox >= 60, Chrome >= 61, Safari >= 11, Opera >= 48",
+  		"development": [
+  			"last 1 chrome version",
+  			"last 1 firefox version"
+  		]
+  	},
+  	"lint-staged": {
+  		"*": "prettier -uw --cache",
+  		"*.css": "stylelint --cache --fix",
+  		"*.{ts,tsx}": [
+  			"eslint --cache --fix",
+  			"vitest related --run --coverage=false"
+  		]
+  	},
+  	"pnpm": {
+  		"overrides": {
+  			"headers-polyfill": "3.1.2"
+  		}
+  	}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

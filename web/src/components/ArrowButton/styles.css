@@ -1,0 +1,32 @@
+.arrow-button {
+	position: absolute;
+	cursor: pointer;
+}
+
+@media (width <= 768px) {
+	.arrow-button {
+		position: absolute;
+		top: 85%;
+		cursor: pointer;
+	}
+}
+
+.left {
+	left: -2px;
+}
+
+@media (width <= 768px) {
+	.left {
+		left: 42%;
+	}
+}
+
+.right {
+	right: -2px;
+}
+
+@media (width <= 768px) {
+	.right {
+		right: 42%;
+	}
+}

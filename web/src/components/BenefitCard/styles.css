@@ -1,0 +1,18 @@
+.card-description {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+
+.button-not-favorite {
+	padding-top: 18px;
+	padding-right: 18px;
+	width: 100%;
+	position: absolute;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.benefit-card button {
+	pointer-events: auto;
+}

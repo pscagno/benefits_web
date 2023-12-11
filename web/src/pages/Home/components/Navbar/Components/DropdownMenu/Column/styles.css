@@ -1,0 +1,26 @@
+.category-name {
+	color: #fff;
+	transition: color 0.3s ease-in;
+}
+
+.category-name:hover {
+	color: #ff4351;
+}
+
+.arrow-visible {
+	fill: #fff;
+	opacity: 1;
+	transform: translateX(0);
+	transition:
+		opacity 0.3s ease-in,
+		transform 0.3s ease-in;
+}
+
+.arrow-hidden {
+	fill: #fff;
+	opacity: 0;
+	transform: translateX(-25px);
+	transition:
+		opacity 0.3s ease-in,
+		transform 0.3s ease-in;
+}

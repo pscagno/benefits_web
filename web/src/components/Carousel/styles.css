@@ -1,0 +1,17 @@
+.react-multiple-carousel-container {
+	position: fixed !important;
+	color: black;
+	font-size: 50px;
+}
+
+.react-multiple-carousel-container:hover {
+	cursor: pointer;
+}
+
+.my-custom-arrow-left {
+	left: calc(4% + 231px) !important;
+}
+
+.my-custom-arrow-right {
+	right: calc(4% + 249px) !important;
+}

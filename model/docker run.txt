@@ -1,0 +1,15 @@
+build
+-----
+> docker build -t benefits-model . -f .\model\Dockerfile
+
+Run detached -d
+----------------
+> docker run -d -p 8001:8001 --name benefits benefits-model
+
+Attach para ver los logs en consola
+------------------------------------------------
+docker attach benefits
+
+Run docker compose desde el raiz
+---------------------------------
+> docker-compose up -d

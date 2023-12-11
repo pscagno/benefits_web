@@ -1,0 +1,38 @@
+[
+	{
+		"id": 1,
+		"logo": "health",
+		"name": "SALUD",
+		"color": "#FF8CC5"
+	},
+	{
+		"id": 2,
+		"logo": "none",
+		"name": "GASTRONOMÍA",
+		"color": "#FF4351"
+	},
+	{
+		"id": 3,
+		"logo": "none",
+		"name": "BALANCE",
+		"color": "#FFC629"
+	},
+	{
+		"id": 4,
+		"logo": "none",
+		"name": "CAMPAÑAS",
+		"color": "#00AC69"
+	},
+	{
+		"id": 5,
+		"logo": "none",
+		"name": "CELEBRACIONES",
+		"color": "#00A6E8"
+	},
+	{
+		"id": 6,
+		"logo": "none",
+		"name": "PROD. BANCARIOS",
+		"color": "#C9B787"
+	}
+]

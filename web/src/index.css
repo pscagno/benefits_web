@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200&family=Titillium+Web:wght@200;300;400;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	@font-face {
+		font-family: Inter;
+		font-style: normal;
+		font-weight: 400;
+		font-display: swap;
+		src: url('/fonts/Inter-Regular.woff2') format('woff2');
+	}
+	@font-face {
+		font-family: Inter;
+		font-style: normal;
+		font-weight: 500;
+		font-display: swap;
+		src: url('/fonts/Inter-Medium.woff2') format('woff2');
+	}
+	@font-face {
+		font-family: Inter;
+		font-style: normal;
+		font-weight: 700;
+		font-display: swap;
+		src: url('/fonts/Inter-Bold.woff2') format('woff2');
+	}
+}
+
+.h-screen {
+	height: 100svh;
+}
+
+.frow {
+	display: flex;
+	flex-direction: row;
+}
+
+.fcol {
+	display: flex;
+	flex-direction: column;
+}
+
+.fcenter {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.jely {
+	justify-content: space-evenly;
+}
+
+.jand {
+	justify-content: space-around;
+}
+
+.jeen {
+	justify-content: space-between;
+}
+
+input[type='checkbox'] {
+	visibility: hidden;
+}
+
+.script {
+	display: block;
+	position: relative;
+	padding-left: 1.5rem;
+	cursor: pointer;
+	font-size: 18px;
+}
+
+.geekmark {
+	position: absolute;
+	border: 1px solid black;
+	border-color: #d2d2d2;
+	top: -1px;
+	left: 0;
+	height: 31px;
+	width: 31px;
+	background-color: white;
+}
+
+.script:hover input ~ .geekmark {
+	border-color: #6892f0;
+}
+
+.geekmark::after {
+	content: '';
+	position: absolute;
+	display: none;
+}
+
+.script .geekmark::after {
+	background: #ff4351;
+	height: 15px;
+	width: 15px;
+	border-radius: 3px;
+	left: 7px;
+	top: 7px;
+}
+
+.script input:active ~ .geekmark {
+	background-color: #6892f0;
+}
+
+.script input:checked ~ .geekmark {
+	background-color: white;
+}
+
+.script input:checked ~ .geekmark::after {
+	display: block;
+}
+
+.custom-h1-a {
+	font-family: 'Titillium Web', sans-serif;
+	font-size: 42px;
+	font-weight: 600;
+	line-height: 64px;
+	letter-spacing: 0;
+	text-align: center;
+	@apply text-primary-description;
+}
+
+.error {
+	color: #ff4351;
+	font-size: 0.75rem;
+	text-align: left;
+	margin-top: 0.1rem;
+}
+
+.shadow-box {
+	box-shadow: 0 4px 15px 0 rgb(0 0 0 / 15%);
+	border-radius: 10px;
+	background: white;
+}

@@ -1,0 +1,100 @@
+[
+	{
+		"id": 1,
+		"name": "SALUD",
+		"orderInMenu": 1,
+		"logo": "/src/assets/images/Slider.png",
+		"logoMobile": "/src/assets/images/Slider.png",
+		"imageMenu": "public/site/headers/ico-cultura.png",
+		"color": "#FF8CC5",
+		"subcategories": [
+			{
+				"id": 12,
+				"name": "Recetas"
+			}
+		]
+	},
+	{
+		"id": 2,
+		"name": "GASTRONOMÍA",
+		"orderInMenu": 2,
+		"logo": "/src/assets/images/Slider.png",
+		"logoMobile": "/src/assets/images/Slider.png",
+		"imageMenu": "public/site/headers/ico-deportes.png",
+		"color": "#FF4351",
+		"subcategories": [
+			{
+				"id": 3,
+				"name": "Open bar"
+			},
+			{
+				"id": 4,
+				"name": "Cena para dos personas"
+			}
+		]
+	},
+	{
+		"id": 5,
+		"name": "BALANCE",
+		"orderInMenu": 3,
+		"logo": "/src/assets/images/Slider.png",
+		"logoMobile": "/src/assets/images/Slider.png",
+		"imageMenu": "public/site/headers/ico-tecnologia.png",
+		"color": "#FFC629",
+		"subcategories": [
+			{
+				"id": 6,
+				"name": "Gadgets"
+			},
+			{
+				"id": 7,
+				"name": "Software"
+			}
+		]
+	},
+	{
+		"id": 5,
+		"name": "CAMPAÑAS",
+		"orderInMenu": 3,
+		"logo": "/src/assets/images/Slider.png",
+		"logoMobile": "/src/assets/images/Slider.png",
+		"imageMenu": "public/site/headers/ico-viajes.png",
+		"color": "#00AC69",
+		"subcategories": [
+			{
+				"id": 6,
+				"name": "Aventuras"
+			}
+		]
+	},
+	{
+		"id": 9,
+		"name": "CELEBRACIONES",
+		"orderInMenu": 5,
+		"logo": "/src/assets/images/Slider.png",
+		"logoMobile": "/src/assets/images/Slider.png",
+		"imageMenu": "public/site/headers/ico-moda.png",
+		"color": "#00A6E8",
+		"subcategories": [
+			{
+				"id": 10,
+				"name": "Tendencias"
+			}
+		]
+	},
+	{
+		"id": 11,
+		"name": "PROD. BANCARIOS",
+		"orderInMenu": 6,
+		"logo": "/src/assets/images/Slider.png",
+		"logoMobile": "/src/assets/images/Slider.png",
+		"imageMenu": "public/site/headers/ico-gastronomia.png",
+		"color": "#C9B787",
+		"subcategories": [
+			{
+				"id": 12,
+				"name": "Descuentos en restaurantes"
+			}
+		]
+	}
+]

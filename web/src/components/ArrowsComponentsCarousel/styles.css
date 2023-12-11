@@ -1,0 +1,19 @@
+.arrow-container {
+	display: block;
+}
+
+.arrow-container-mobile {
+	display: none;
+}
+
+@media (width <= 768px) {
+	.arrow-container {
+		display: none;
+	}
+}
+
+@media (width <= 768px) {
+	.arrow-container-mobile {
+		display: block;
+	}
+}

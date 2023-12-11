@@ -1,0 +1,17 @@
+.icon-desktop {
+	display: block;
+}
+
+.icon-mobile {
+	display: none;
+}
+
+@media (width <= 767px) {
+	.icon-desktop {
+		display: none;
+	}
+
+	.icon-mobile {
+		display: block;
+	}
+}

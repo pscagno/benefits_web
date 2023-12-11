@@ -1,0 +1,16 @@
+[Unit]
+Description=Service for web server
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/app
+Environment=COMPOSE_HTTP_TIMEOUT=600
+ExecStart=/usr/bin/env /usr/bin/docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+ExecStop=/usr/bin/env /usr/bin/docker-compose -f docker-compose.yml -f docker-compose.prod.yml  stop
+StandardOutput=syslog
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
