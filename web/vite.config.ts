@@ -24,10 +24,5 @@ export default defineConfig(({ mode }) => ({
 		tsconfigPaths(),
 		react(),
 		...(mode === 'test' ? [] : [eslintPlugin()])
-	],
-	build: {
-		rollupOptions: {
-		  input: 'src/main.js', // Adjust the path based on your project structure
-		},
-	  },
+	]
 }))
