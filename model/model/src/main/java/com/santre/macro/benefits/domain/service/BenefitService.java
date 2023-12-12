@@ -19,7 +19,11 @@ public interface BenefitService {
 
     Page<BenefitEntity> getBySubcategory(UserEntity user, SubcategoryEntity subcategory, int page, int size);
 
+    List<BenefitEntity> getBySubcategory(SubcategoryEntity subcategory);
+
     Page<BenefitEntity> getByCategory(UserEntity user, CategoryEntity category, int page, int size);
+
+    List<BenefitEntity> getByCategory(CategoryEntity category);
 
     Optional<BenefitEntity> getById(Long id);
 

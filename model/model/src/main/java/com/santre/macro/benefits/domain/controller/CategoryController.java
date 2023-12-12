@@ -7,6 +7,7 @@ import com.santre.macro.benefits.domain.models.responses.BenefitDetailRest;
 import com.santre.macro.benefits.domain.models.responses.BenefitRest;
 import com.santre.macro.benefits.domain.models.responses.CategoryDetailRest;
 import com.santre.macro.benefits.domain.models.responses.CategoryRest;
+import com.santre.macro.benefits.domain.service.BenefitService;
 import com.santre.macro.benefits.domain.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +28,9 @@ public class CategoryController {
 
     @Autowired
     private CategoryService service;
+
+    @Autowired
+    private BenefitService benefitsService;
 
     @GetMapping
     public List<CategoryRest> list(){
@@ -62,6 +66,11 @@ public class CategoryController {
     public ResponseEntity<?> delete(@PathVariable Long id){
         Optional<CategoryEntity> categoryOptional = service.getById(id);
         if (categoryOptional.isPresent()){
+            var categoryBenefits = benefitsService.getByCategory(categoryOptional.get());
+            if (!categoryBenefits.isEmpty()){
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("La categoria esta relacionada con un beneficio. Elimine o modifique el beneficio.");
+            }
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {

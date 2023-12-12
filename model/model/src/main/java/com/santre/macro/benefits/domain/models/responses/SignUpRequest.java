@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -16,6 +18,7 @@ public class SignUpRequest {
   String email;
   String password;
   Long idCity;
+  List<Long> categories;
 
   public String getFirstName() {
     return firstName;
@@ -55,5 +58,13 @@ public class SignUpRequest {
 
   public void setIdCity(Long idCity) {
     this.idCity = idCity;
+  }
+
+  public List<Long> getCategories() {
+    return categories;
+  }
+
+  public void setCategories(List<Long> categories) {
+    this.categories = categories;
   }
 }

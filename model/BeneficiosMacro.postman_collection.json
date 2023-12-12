@@ -10,14 +10,7 @@
 			"name": "List Categories",
 			"request": {
 				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwc2NhbmdvQGhvdG1haWwuY29tIiwiaWF0IjoxNzAxNDU2MDUxLCJleHAiOjE3MDE0NTk2NTF9.-XxRmH5YzwrdhVPAzzNIuv_ow5VUdC-uT5S8nZyuNj4",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
@@ -43,7 +36,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwc2NhbmdvQGhvdG1haWwuY29tIiwiaWF0IjoxNzAxNTQ1NTgzLCJleHAiOjE3Mzc1NDU1ODN9.EsTq287gGiGHrr8j6TXRCHGLh-0VK7y9SF7syxdykj4",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDIzMjk3NDEsImV4cCI6MTczODMyOTc0MX0.neWvvfzr_quzXLzYc_WhkqMX9YUnw9lA2MwKWElPYy8",
 							"type": "string"
 						}
 					]
@@ -93,7 +86,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwc2NhbmdvQGhvdG1haWwuY29tIiwiaWF0IjoxNzAxNTQ1NTgzLCJleHAiOjE3Mzc1NDU1ODN9.EsTq287gGiGHrr8j6TXRCHGLh-0VK7y9SF7syxdykj4",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDE4NjcyMDcsImV4cCI6MTczNzg2NzIwN30.fZhJv-54MJHTl83Dpq5TbchG9Zgi68Kmq0ng62mqTvM",
 							"type": "string"
 						}
 					]
@@ -223,6 +216,16 @@
 		{
 			"name": "List User Favorite Benefits",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwc2NhbmdvQGhvdG1haWwuY29tIiwiaWF0IjoxNzAxNTQ1NTgzLCJleHAiOjE3Mzc1NDU1ODN9.EsTq287gGiGHrr8j6TXRCHGLh-0VK7y9SF7syxdykj4",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -268,6 +271,9 @@
 		{
 			"name": "List Provinces",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -287,6 +293,9 @@
 		{
 			"name": "List City",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -324,13 +333,43 @@
 			"response": []
 		},
 		{
+			"name": "Logged User details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwc2NhbmdvMkBnbWFpbC5jb20iLCJpYXQiOjE3MDIzMzgwMjIsImV4cCI6MTczODMzODAyMn0.6Wu3O_fKEJWCurGUQ_i9Tc3CV3_Mj09C9fQLdfJBjcU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/auth/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"auth",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "POST User Registration",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\":\"pablo\",\r\n    \"lastName\":\"scagno\",\r\n    \"email\":\"pscango@gmail.com\",\r\n    \"password\":\"123456\",\r\n    \"idCity\":1\r\n}",
+					"raw": "{\r\n    \"firstName\":\"pablo\",\r\n    \"lastName\":\"scagno\",\r\n    \"email\":\"pscango2@gmail.com\",\r\n    \"password\":\"123456\",\r\n    \"idCity\":2,\r\n    \"categories\":[1, 2]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -359,7 +398,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"pscango@hotmail.com\",\r\n    \"password\":\"123456\"\r\n}",
+					"raw": "{\r\n    \"email\":\"pscango@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -413,6 +452,16 @@
 		{
 			"name": "POST Category",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDIzMjk3NDEsImV4cCI6MTczODMyOTc0MX0.neWvvfzr_quzXLzYc_WhkqMX9YUnw9lA2MwKWElPYy8",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -420,24 +469,24 @@
 					"formdata": [
 						{
 							"key": "category",
-							"value": "{\n    \"name\":\"Entretenimiento\",   \n    \"color\":\"#ff9900\",\n    \"orderInMenu\":2\n}",
+							"value": "{\n    \"name\":\"Ahorros\",   \n    \"color\":\"#ff9900\",\n    \"orderInMenu\":2\n}",
 							"contentType": "application/json",
 							"type": "text"
 						},
 						{
 							"key": "imageHeader",
 							"type": "file",
-							"src": "/C:/Users/pscag/Pictures/25.JPG"
+							"src": "/C:/Users/pscag/Pictures/2.jpg"
 						},
 						{
 							"key": "imageHeaderMobile",
 							"type": "file",
-							"src": "/C:/Users/pscag/Pictures/19 Vuelo Vuelta (10).JPG"
+							"src": "/C:/Users/pscag/Pictures/13.JPG"
 						},
 						{
 							"key": "imageMenu",
 							"type": "file",
-							"src": "/C:/Users/pscag/Pictures/cumplepaloma.PNG"
+							"src": "/C:/Users/pscag/Pictures/19 Vuelo Vuelta (10).JPG"
 						}
 					]
 				},
@@ -458,6 +507,16 @@
 		{
 			"name": "POST Subcategory",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDIzMjk3NDEsImV4cCI6MTczODMyOTc0MX0.neWvvfzr_quzXLzYc_WhkqMX9YUnw9lA2MwKWElPYy8",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -486,6 +545,16 @@
 		{
 			"name": "POST Province",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDIzMjk3NDEsImV4cCI6MTczODMyOTc0MX0.neWvvfzr_quzXLzYc_WhkqMX9YUnw9lA2MwKWElPYy8",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -514,6 +583,16 @@
 		{
 			"name": "POST City",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDIzMjk3NDEsImV4cCI6MTczODMyOTc0MX0.neWvvfzr_quzXLzYc_WhkqMX9YUnw9lA2MwKWElPYy8",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -547,7 +626,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDE1MzcyOTIsImV4cCI6MTcwMTU0MDg5Mn0.2kJ8wiYi_zkfWvZ4sS6qRedfiAdcyRwD3jKGjUbJ7oo",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDIzMjk3NDEsImV4cCI6MTczODMyOTc0MX0.neWvvfzr_quzXLzYc_WhkqMX9YUnw9lA2MwKWElPYy8",
 							"type": "string"
 						}
 					]
@@ -559,7 +638,7 @@
 					"formdata": [
 						{
 							"key": "benefit",
-							"value": "{\n   \"userCreation\":\"Pablo\",\n   \"title\":\"Beneficio de prueba 4\",\n   \"description\":\"Este beneficio es una 4ta prueba de que todo va bien.\",\n   \"text\":\"Sarasa, mas de lo mismo 4 veces...\",\n   \"inHome\":\"true\",\n   \"link\": \"google.com\",\n   \"subcategory\":{\n      \"id\":8\n   }\n}",
+							"value": "{\n   \"userCreation\":\"Pablo\",\n   \"title\":\"Beneficio de prueba 4\",\n   \"description\":\"Este beneficio es una 4ta prueba de que todo va bien.\",\n   \"text\":\"Sarasa, mas de lo mismo 4 veces...\",\n   \"inHome\":\"true\",\n   \"link\": \"google.com\",\n   \"subcategory\":{\n      \"id\":1\n   }\n}",
 							"contentType": "application/json",
 							"type": "text"
 						},
@@ -567,19 +646,19 @@
 							"key": "imageHeader",
 							"contentType": "image/jpeg",
 							"type": "file",
-							"src": "/C:/Users/pscag/Pictures/2.jpg"
+							"src": "/C:/Users/pscag/Pictures/25.JPG"
 						},
 						{
 							"key": "imageHeaderMobile",
 							"contentType": "image/jpeg",
 							"type": "file",
-							"src": "/C:/Users/pscag/Pictures/13.JPG"
+							"src": "/C:/Users/pscag/Pictures/40.jpg"
 						},
 						{
 							"key": "imageLists",
 							"contentType": "image/jpeg",
 							"type": "file",
-							"src": "/C:/Users/pscag/Pictures/25.JPG"
+							"src": "/C:/Users/pscag/Pictures/40.jpg"
 						},
 						{
 							"key": "imageDetails1",
@@ -591,7 +670,7 @@
 							"key": "imageDetails2",
 							"contentType": "image/jpeg",
 							"type": "file",
-							"src": "/C:/Users/pscag/Pictures/19 Vuelo Vuelta (10).JPG"
+							"src": "/C:/Users/pscag/Pictures/40.jpg"
 						}
 					]
 				},
@@ -792,10 +871,20 @@
 		{
 			"name": "PUT Unset Favorite",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwc2NhbmdvQGhvdG1haWwuY29tIiwiaWF0IjoxNzAxNTQ1NTgzLCJleHAiOjE3Mzc1NDU1ODN9.EsTq287gGiGHrr8j6TXRCHGLh-0VK7y9SF7syxdykj4",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8001/benefit/unsetFav/1",
+					"raw": "http://localhost:8001/benefit/unsetFav/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -804,7 +893,7 @@
 					"path": [
 						"benefit",
 						"unsetFav",
-						"1"
+						"3"
 					]
 				}
 			},
@@ -836,6 +925,137 @@
 						"benefit",
 						"setAsFav",
 						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Benefit",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDIzMjk3NDEsImV4cCI6MTczODMyOTc0MX0.neWvvfzr_quzXLzYc_WhkqMX9YUnw9lA2MwKWElPYy8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "benefit",
+							"value": "{\n   \"userCreation\":\"Pablo\",\n   \"title\":\"Beneficio de prueba 2\",\n   \"description\":\"Este beneficio es una 4ta prueba de que todo va bien.\",\n   \"text\":\"Sarasa, mas de lo mismo 4 veces...\",\n   \"inHome\":\"true\",\n   \"link\": \"google.com\",\n   \"subcategory\":{\n      \"id\":1\n   }\n}",
+							"contentType": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "imageHeader",
+							"contentType": "image/jpeg",
+							"type": "file",
+							"src": "/C:/Users/pscag/Pictures/2.jpg"
+						},
+						{
+							"key": "imageHeaderMobile",
+							"contentType": "image/jpeg",
+							"type": "file",
+							"src": "/C:/Users/pscag/Pictures/13.JPG"
+						},
+						{
+							"key": "imageLists",
+							"contentType": "image/jpeg",
+							"type": "file",
+							"src": "/C:/Users/pscag/Pictures/25.JPG"
+						},
+						{
+							"key": "imageDetails1",
+							"contentType": "image/jpeg",
+							"type": "file",
+							"src": "/C:/Users/pscag/Pictures/40.jpg"
+						},
+						{
+							"key": "imageDetails2",
+							"contentType": "image/jpeg",
+							"type": "file",
+							"src": "/C:/Users/pscag/Pictures/19 Vuelo Vuelta (10).JPG"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8001/benefit/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"benefit",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Categoy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDE4NjcyMDcsImV4cCI6MTczNzg2NzIwN30.fZhJv-54MJHTl83Dpq5TbchG9Zgi68Kmq0ng62mqTvM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/benefit/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"benefit",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete SubCategoy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDE4NjcyMDcsImV4cCI6MTczNzg2NzIwN30.fZhJv-54MJHTl83Dpq5TbchG9Zgi68Kmq0ng62mqTvM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/subcategory/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"subcategory",
+						"1"
 					]
 				}
 			},

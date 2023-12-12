@@ -25,31 +25,11 @@ services:
       - postgres14
     restart: always
   web:
-    image: nginx:latest
-    ports:
-      - "8080:8080"
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d/proxy.conf:/etc/nginx/conf.d/proxy.conf.template
-      - ./nginx/certs:/etc/nginx/ssl/
-      - ./nginx/snippets:/etc/nginx/snippets/
-    links:
-      - react-app
-      - model
-    networks:
-      - macro
-    environment:
-      SERVER_NAME: ${SERVER_NAME:-localhost} # Example: benefits.com
-      WEB_SERVER_NAME: ${WEB_SERVER_NAME:-localhost} # Example: www.benefits.com
-    command: /bin/bash -c "envsubst '$$SERVER_NAME,$$WEB_SERVER_NAME' < /etc/nginx/conf.d/proxy.conf.template > /etc/nginx/conf.d/proxy.conf && nginx -g 'daemon off;'"
-  react-app:
     build:
       context: ./
       dockerfile: ./web/Dockerfile
-    deploy:
-      resources:
-        limits:
-          memory: 250M
+    ports:
+      - 8080:80
     networks:
       - macro
 volumes:

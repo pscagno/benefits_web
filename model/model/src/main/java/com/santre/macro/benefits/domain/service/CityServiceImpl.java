@@ -35,7 +35,7 @@ public class CityServiceImpl implements  CityService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id){
         repository.deleteById(id);
     }
 }

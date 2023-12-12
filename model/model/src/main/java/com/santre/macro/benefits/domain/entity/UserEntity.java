@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,6 +44,8 @@ public class UserEntity implements UserDetails {
   @JoinColumn(name="idCity", nullable = true)
   private CityEntity city;
 
+  @ManyToMany
+  private List<CategoryEntity> categories = new ArrayList<>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -148,4 +151,11 @@ public class UserEntity implements UserDetails {
     this.city = city;
   }
 
+  public List<CategoryEntity> getCategories() {
+    return categories;
+  }
+
+  public void setCategories(List<CategoryEntity> categories) {
+    this.categories = categories;
+  }
 }

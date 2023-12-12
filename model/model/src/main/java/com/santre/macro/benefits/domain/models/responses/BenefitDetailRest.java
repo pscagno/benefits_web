@@ -24,7 +24,7 @@ public class BenefitDetailRest {
     private byte[] imageHeaderMobile;
     private byte[] imageDetails1;
     private byte[] imageDetails2;
-
+    private byte[] imageList;
 
     public Long getId() {
         return id;
@@ -144,6 +144,14 @@ public class BenefitDetailRest {
 
     public void setImageDetails2(byte[] imageDetails2) {
         this.imageDetails2 = imageDetails2;
+    }
+
+    public byte[] getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(byte[] imageList) {
+        this.imageList = imageList;
     }
 
     public boolean isUserFavorite() {

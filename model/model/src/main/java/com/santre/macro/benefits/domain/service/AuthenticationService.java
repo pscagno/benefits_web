@@ -1,5 +1,6 @@
 package com.santre.macro.benefits.domain.service;
 
+import com.santre.macro.benefits.domain.entity.CategoryEntity;
 import com.santre.macro.benefits.domain.entity.CityEntity;
 import com.santre.macro.benefits.domain.models.responses.JwtAuthenticationResponse;
 import com.santre.macro.benefits.domain.models.responses.SignInRequest;
@@ -14,6 +15,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -27,6 +30,14 @@ public class AuthenticationService {
     public JwtAuthenticationResponse signup(SignUpRequest request) {
         var city = new CityEntity();
         city.setId(request.getIdCity());
+
+        var categories = new ArrayList<CategoryEntity>();
+        for (var catId: request.getCategories()) {
+            var category = new CategoryEntity();
+            category.setId(catId);
+            categories.add(category);
+        }
+
         var user = UserEntity
                     .builder()
                     .firstName(request.getFirstName())
@@ -34,6 +45,7 @@ public class AuthenticationService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .city(city)
+                    .categories(categories)
                     .role(Role.ROLE_USER)
                     .build();
 

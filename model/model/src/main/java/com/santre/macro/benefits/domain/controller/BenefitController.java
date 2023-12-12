@@ -13,12 +13,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.*;
 
@@ -252,7 +250,16 @@ public class BenefitController {
         Optional<BenefitEntity> benefitOptional = service.getById(id);
         if (benefitOptional.isPresent()) {
             BenefitEntity benefitDb = benefitOptional.get();
-            BeanUtils.copyProperties(benefitDb, benefit);
+            benefitDb.setTitle(benefit.getTitle());
+            benefitDb.setUserCreation(benefit.getUserCreation());
+            benefitDb.setDescription(benefit.getDescription());
+            benefitDb.setDateExpiration(benefit.getDateExpiration());
+            benefitDb.setInHome(benefit.isInHome());
+            benefitDb.setLink(benefit.getLink());
+            benefitDb.setSubcategory(benefit.getSubcategory());
+            benefitDb.setText(benefit.getText());
+            benefitDb.setTitle(benefit.getTitle());
+
             imageList.ifPresent(multipartFile -> {
                 try { benefitDb.setImageList(multipartFile.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
             });

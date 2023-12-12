@@ -57,6 +57,12 @@ public class BenefitServiceImpl implements  BenefitService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<BenefitEntity> getBySubcategory(SubcategoryEntity subcategory) {
+        return repository.findBySubcategory(subcategory);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Page<BenefitEntity> getByCategory(UserEntity user, CategoryEntity category, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
         return repository.findByCategoryAndRegion(
@@ -65,6 +71,12 @@ public class BenefitServiceImpl implements  BenefitService {
                 user.getCity().getId(),
                 user.getCity().getProvince().getId()
         );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<BenefitEntity> getByCategory(CategoryEntity category) {
+        return repository.findByCategory(category.getId());
     }
 
     @Override

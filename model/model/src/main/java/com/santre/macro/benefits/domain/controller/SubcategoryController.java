@@ -1,6 +1,7 @@
 package com.santre.macro.benefits.domain.controller;
 
 import com.santre.macro.benefits.domain.entity.SubcategoryEntity;
+import com.santre.macro.benefits.domain.service.BenefitService;
 import com.santre.macro.benefits.domain.service.SubcategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ public class SubcategoryController {
 
     @Autowired
     private SubcategoryService service;
+
+    @Autowired
+    private BenefitService benefitsService;
 
     @GetMapping
     public List<SubcategoryEntity> list(){
@@ -45,6 +49,11 @@ public class SubcategoryController {
     public ResponseEntity<?> delete(@PathVariable Long id){
         Optional<SubcategoryEntity> subcategoryOptional = service.getById(id);
         if (subcategoryOptional.isPresent()){
+            var subcategoryBenefits = benefitsService.getBySubcategory(subcategoryOptional.get());
+            if (!subcategoryBenefits.isEmpty()){
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("La subcategoria esta relacionada con un beneficio. Elimine o modifique el beneficio.");
+            }
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {

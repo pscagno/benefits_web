@@ -15,7 +15,7 @@ public interface BenefitRepository extends CrudRepository<BenefitEntity, Long> {
 
     Page<BenefitEntity> findAll(Pageable pageable);
 
-    Page<BenefitEntity> findBySubcategory(Pageable pageable, SubcategoryEntity subcategory);
+    List<BenefitEntity> findBySubcategory(SubcategoryEntity subcategory);
 
     @Query("SELECT b FROM BenefitEntity b " +
             "inner join SubcategoryEntity s on b.subcategory.id = s.id " +
@@ -33,7 +33,7 @@ public interface BenefitRepository extends CrudRepository<BenefitEntity, Long> {
 
     @Query("SELECT b FROM BenefitEntity b inner join SubcategoryEntity s on b.subcategory.id = s.id " +
             "Where s.category.id = :categoryId")
-    Page<BenefitEntity> findByCategory(Pageable pageable, Long categoryId);
+    List<BenefitEntity> findByCategory(Long categoryId);
 
     @Query("SELECT b FROM BenefitEntity b " +
             "inner join SubcategoryEntity s on b.subcategory.id = s.id " +
