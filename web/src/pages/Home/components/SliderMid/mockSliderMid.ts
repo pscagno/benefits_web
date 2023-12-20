@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 import Slider from '../../../../assets/images/Slider.jpg'
 
 const SliderMidImage = [

@@ -1,14 +1,16 @@
+import type { Benefit } from 'types/benefit'
+
 export interface Props {
-	nameBenefitsCard: string
+	benefitData: Benefit
+	keyQueryName: string
+}
+
+export interface BenefitDescription {
 	title: string
-	id: number
 	description: string
-	bgColor: string
-	handleSelectBenefit: () => void
-	isSelected: boolean
-	dataCarousel?: {
-		image: string
-		altImage: string
-		id: number
-	}[]
+	text: string
+	id: number
+	categoryName: string
+	categoryId: number
+	averageQualification: number
 }

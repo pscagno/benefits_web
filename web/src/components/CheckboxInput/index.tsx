@@ -19,17 +19,17 @@ function CheckboxInput({ gridCols, title, preferences }: Props) {
 				}`}
 			>
 				{preferences.map((preference: Preference) => (
-					<div className='mb-5 w-full' key={preference.value}>
+					<div className='mb-5 w-full' key={preference.id}>
 						<label
 							className='script overflow-hidden overflow-ellipsis whitespace-nowrap font-TitilliumWeb font-semibold text-primary-description'
-							htmlFor={preference.value}
+							htmlFor={preference.id}
 						>
 							<input
-								id={preference.value}
+								id={preference.id}
 								type='checkbox'
-								{...register(`preferences.${preference.value}`)}
+								{...register(`preferences.${preference.id}`)}
 							/>
-							{preference.label}
+							{preference.name}
 							<span className='geekmark flex' />
 						</label>
 					</div>

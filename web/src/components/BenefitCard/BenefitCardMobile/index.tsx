@@ -1,10 +1,11 @@
+import type { CardBenefits } from 'components/CardsBenefits/types'
 import { memo, useCallback } from 'react'
 
 import ButtonHeart from '../components/ButtonHeart'
 import ButtonShare from '../components/ButtonShare'
-import '../styles.css'
-import type { Props } from '../types'
 import DescriptionCardMobile from './components/DescriptionCardMobile'
+
+import '../styles.css'
 
 function BenefitCardMobile({
 	bgColor,
@@ -14,8 +15,10 @@ function BenefitCardMobile({
 	imageList,
 	nameBenefitsCard,
 	onClickButton,
+	userFavorite,
+	keyQueryName,
 	title
-}: Props) {
+}: CardBenefits) {
 	// TODO recibir solo el ID, ya que si se comparte el link debe hacer el pedido a la Api solo con ID
 	const handleIWantButton = useCallback(() => {
 		const stateData = {
@@ -24,6 +27,8 @@ function BenefitCardMobile({
 			title,
 			description,
 			bgColor,
+			userFavorite,
+			keyQueryName,
 			id
 		}
 		onClickButton(id, stateData)
@@ -33,15 +38,21 @@ function BenefitCardMobile({
 		id,
 		imageList,
 		nameBenefitsCard,
+		userFavorite,
 		onClickButton,
-		title
+		title,
+		keyQueryName
 	])
 
 	return (
 		<div className='benefit-card relative block h-[348px] w-[329px] cursor-default rounded-[10px] bg-white shadow'>
 			<div className='relative h-[210px] w-full'>
 				<div className='button-not-favorite first-line:absolute'>
-					<ButtonHeart />
+					<ButtonHeart
+						id={id}
+						keyQueryName={keyQueryName}
+						userFavorite={userFavorite}
+					/>
 				</div>
 				<button
 					className='h-full w-full'

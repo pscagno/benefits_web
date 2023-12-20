@@ -7,10 +7,9 @@ import ModalShare from '../ModalShare'
 import type { Props } from './types'
 
 function ButtonShare({ nameBenefitsCard, bgColor, id }: Props) {
-
 	if (!bgColor || !nameBenefitsCard || !id) {
 		return (
-			<div className='absolute bottom-0 flex w-[40%] justify-center'>
+			<div className='absolute bottom-0 flex w-[40%] justify-center pb-1'>
 				<Loading />
 			</div>
 		)

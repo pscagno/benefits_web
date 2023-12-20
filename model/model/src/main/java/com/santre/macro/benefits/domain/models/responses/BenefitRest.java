@@ -13,6 +13,8 @@ public class BenefitRest {
     private String text;
     private boolean inHome;
     private String subcategoryName;
+    private String categoryName;
+    private String categoryColor;
     private String userCreation;
     private Date dateCreation;
     private Date dateExpiration;
@@ -22,6 +24,7 @@ public class BenefitRest {
     private String region;
     private byte[] imageList;
 
+    private double averageQualification;
     public Long getId() {
         return id;
     }
@@ -132,5 +135,29 @@ public class BenefitRest {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getCategoryColor() {
+        return categoryColor;
+    }
+
+    public void setCategoryColor(String categoryColor) {
+        this.categoryColor = categoryColor;
+    }
+
+    public double getAverageQualification() {
+        return averageQualification;
+    }
+
+    public void setAverageQualification(double averageQualification) {
+        this.averageQualification = averageQualification;
     }
 }

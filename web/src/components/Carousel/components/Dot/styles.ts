@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 const styles = {
 	dot: {
 		backgroundColor: 'rgb(212 212 216 / var(--tw-bg-opacity))',

@@ -2,11 +2,11 @@ import { useQuery } from '@tanstack/react-query'
 import { memo } from 'react'
 
 import getBannerImages from 'api/getBannersFavorites'
+import getCardsFavorites from 'api/getBenefitsFavorites'
 import getCards from 'api/getCards'
 import BannerImage from 'components/BannerImage'
 import BenefitsCards from 'components/CardsBenefits'
 import Loading from 'components/Loading/Loading'
-import OurValues from 'components/OurValues'
 
 function Favorites() {
 	const { data } = useQuery(['benefitsCards'], getCards)
@@ -34,11 +34,11 @@ function Favorites() {
 			/>
 			<BenefitsCards
 				bg='bg-[#00000]'
-				data={data}
+				getBenefits={getCardsFavorites}
 				header='Mis Favoritos'
 				headerSize='large'
+				keyQueryName='benefitsFav'
 			/>
-			<OurValues />
 		</div>
 	)
 }

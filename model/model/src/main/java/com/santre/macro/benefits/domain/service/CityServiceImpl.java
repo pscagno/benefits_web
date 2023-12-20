@@ -1,6 +1,7 @@
 package com.santre.macro.benefits.domain.service;
 
 import com.santre.macro.benefits.domain.entity.CityEntity;
+import com.santre.macro.benefits.domain.entity.ProvinceEntity;
 import com.santre.macro.benefits.domain.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,12 @@ public class CityServiceImpl implements  CityService {
     @Transactional(readOnly = true)
     public List<CityEntity> getAll() {
         return (List<CityEntity>)repository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CityEntity> getAllByProvince(ProvinceEntity province){
+        return repository.findByProvince(province);
     }
 
     @Override

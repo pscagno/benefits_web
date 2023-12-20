@@ -7,7 +7,7 @@ import Modal from 'components/Modal'
 import share from '../../../../assets/vector/share.png'
 import type { Props } from './types'
 
-function ModalShare({ id }: Props) {
+function ModalShare({ id, transparentBgColor, text }: Props) {
 	const benefitLinkShare = `http://localhost:5173/benefit/${id}`
 
 	const openEmailClient = useCallback(() => {
@@ -32,9 +32,18 @@ function ModalShare({ id }: Props) {
 
 	return (
 		<Modal
-			buttonClass='grid h-[30px] w-[30px] place-content-center bg-benefits'
+			buttonClass={`grid h-[30px] w-[30px] place-content-center ${
+				!transparentBgColor && 'bg-benefits'
+			}`}
 			textOrIconButton={
-				<img alt='share' className='h-[16px] w-[16px]' src={share} />
+				<div className='flex items-center'>
+					<img alt='share' className='h-[16px] w-[16px]' src={share} />
+					{text && (
+						<h1 className='mx-[7px] font-TitilliumWeb text-[14px] font-semibold text-white'>
+							{text}
+						</h1>
+					)}
+				</div>
 			}
 			titleModal={`Compartir beneficio ${benefitLinkShare}`}
 		>

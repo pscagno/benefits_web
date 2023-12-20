@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 import Imagen1 from 'assets/PartnersImage/logo-arena 1.png'
 import Imagen2 from 'assets/PartnersImage/logo-delsey 1.png'
 import Imagen3 from 'assets/PartnersImage/logo-ktm 1.png'
@@ -24,12 +23,12 @@ const imagesPartner = [
 	{
 		image: Imagen4,
 		altImage: 'Image Carousel 4',
-		id: 3
+		id: 4
 	},
 	{
 		image: Imagen5,
 		altImage: 'Image Carousel 5',
-		id: 3
+		id: 5
 	}
 ]
 

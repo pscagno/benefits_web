@@ -1,39 +1,35 @@
+import type { QueryFunctionContext, QueryKey } from '@tanstack/react-query'
+
 import api from './axios'
 
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-interface Benefit {
+export interface BenefitsCard {
+	categoryColor: string
+	categoryName: string
+	text: string
+	imageList: string
+	title: string
+	description: string
 	id: number
-	// Define the properties of a Benefit
+	bgColor?: string
+	qualification?: number
 }
 
 interface ApiResponse {
-	benefits: Benefit[]
+	benefits: BenefitsCard[]
+	nextPage: number
 }
 
-export default async function getCards() {
-	try {
-		const response = await api.get<ApiResponse>('/benefit?page=0')
-		return response.data.benefits
-	} catch (error) {
-		return error
+export default async function getCards(
+	context: QueryFunctionContext<QueryKey, number>
+) {
+	const page = context.pageParam ?? 0
+	const response = await api.get<ApiResponse>(`/benefit?page=${page}`)
+
+	const nextCursor =
+		response.data.nextPage < 0 ? undefined : response.data.nextPage
+
+	return {
+		benefits: response.data.benefits,
+		nextCursor
 	}
 }
-
-/* eslint-disable no-console */
-// import type { CardBenefits } from 'components/CardsBenefits/types'
-
-// import api from './axios'
-
-// interface ApiResponse {
-// 	benefits: CardBenefits[]
-// }
-
-// export default async function getCards() {
-// 	try {
-// 		const response = await api.get<ApiResponse>('/benefit?page=0')
-// 		return response.data.benefits
-// 	} catch (error) {
-// 		console.error('Error fetching cards:', error)
-// 		return []
-// 	}
-// }

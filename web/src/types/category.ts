@@ -4,9 +4,8 @@ export interface Category {
 	id: number
 	name: string
 	orderInMenu: number
-	// logo:
+	imageMenu: string
 	imageHeader: string
-	// logoMobile:
 	imageHeaderMobile: string
 	color: string
 	subcategories: Subcategory[]

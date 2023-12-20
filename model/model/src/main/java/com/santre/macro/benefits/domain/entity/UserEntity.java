@@ -2,6 +2,7 @@ package com.santre.macro.benefits.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.engine.internal.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,7 +45,8 @@ public class UserEntity implements UserDetails {
   @JoinColumn(name="idCity", nullable = true)
   private CityEntity city;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "user_categories", joinColumns = @JoinColumn(name = "user_entity_id"), inverseJoinColumns = @JoinColumn(name = "category_entity_id"))
   private List<CategoryEntity> categories = new ArrayList<>();
 
   @Override

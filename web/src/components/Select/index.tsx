@@ -4,7 +4,7 @@ import ArrowSelect from 'assets/ArrowSelect/ArrowSelect'
 
 import type { Props } from './types'
 
-function Select({ name, options }: Props) {
+function Select({ name, options, disabled }: Props) {
 	const { register } = useFormContext()
 
 	return (
@@ -12,11 +12,12 @@ function Select({ name, options }: Props) {
 			<div className='relative w-full border border-neutral-300'>
 				<select
 					className='h-[60px] w-full cursor-pointer overflow-hidden overflow-ellipsis whitespace-nowrap border-none bg-none pl-4 font-sans text-lg font-semibold text-indigo-950 placeholder:border-none'
+					disabled={disabled}
 					id={name}
-					{...register(name)}
+					{...register(name as string)}
 				>
 					{options.map(option => (
-						<option key={option.value} value={option.value}>
+						<option key={option.value as string} value={option.value}>
 							{option.label}
 						</option>
 					))}

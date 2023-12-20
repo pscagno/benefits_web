@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 import Frame20Values from 'assets/ValuesIcon/Frame20Values'
 import Frame21Values from 'assets/ValuesIcon/Frame21Values'
 import Frame22Values from 'assets/ValuesIcon/Frame22Values'

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { useQuery } from '@tanstack/react-query'
 
 import getValues from 'api/getValues'

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 import BannerProfileImg from 'assets/images/Banner-Profile.png'
 import BannerProfileMobile from 'assets/images/dashi-header-mobile.png'
 // Estos son los datos que tiene dentro de un user la benefit card:

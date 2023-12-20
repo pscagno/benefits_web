@@ -2,6 +2,7 @@ package com.santre.macro.benefits.domain.service;
 
 import com.santre.macro.benefits.domain.repository.CategoryRepository;
 import com.santre.macro.benefits.domain.entity.CategoryEntity;
+import com.santre.macro.benefits.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,9 @@ public class CategoryServiceImpl implements  CategoryService {
 
     @Autowired
     CategoryRepository repository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -36,6 +40,10 @@ public class CategoryServiceImpl implements  CategoryService {
     @Override
     @Transactional
     public void delete(Long id) {
-        repository.deleteById(id);
+        CategoryEntity category = repository.findById(id).orElseThrow();
+        category.getUsers().removeAll(category.getUsers());
+        //repository.save(category);
+        repository.delete(category);
     }
+
 }

@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import '../../styles.css'
 import type { Props } from './types'
 
-function SubcategoryButton({ subcategory, setOpenMenu }: Props) {
+function SubcategoryButton({ subcategory, setOpenMenu, category }: Props) {
 	const navigate = useNavigate()
 
 	const handleNavigateToSubCategory = useCallback(() => {
 		setOpenMenu(previousOpenState => !previousOpenState)
-		navigate(`/${subcategory.name}`)
+		navigate(`/category/${category.id}/subcategory/${subcategory.id}`)
 	}, [setOpenMenu, navigate, subcategory.name])
 
 	return (

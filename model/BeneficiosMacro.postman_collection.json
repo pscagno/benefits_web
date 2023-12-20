@@ -150,6 +150,46 @@
 			"response": []
 		},
 		{
+			"name": "List Benefits Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDE4NjcyMDcsImV4cCI6MTczNzg2NzIwN30.fZhJv-54MJHTl83Dpq5TbchG9Zgi68Kmq0ng62mqTvM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/benefit/search?page=0&keyword=prueba",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"benefit",
+						"search"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "keyword",
+							"value": "prueba"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "List Benefits by Subcategory",
 			"request": {
 				"auth": {
@@ -313,6 +353,30 @@
 			"response": []
 		},
 		{
+			"name": "List Cities By Province",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/city/province/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"city",
+						"province",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "List Users",
 			"request": {
 				"method": "GET",
@@ -369,7 +433,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\":\"pablo\",\r\n    \"lastName\":\"scagno\",\r\n    \"email\":\"pscango2@gmail.com\",\r\n    \"password\":\"123456\",\r\n    \"idCity\":2,\r\n    \"categories\":[1, 2]\r\n}",
+					"raw": "{\r\n    \"firstName\":\"pablo\",\r\n    \"lastName\":\"scagno\",\r\n    \"email\":\"pscango@gmail.com\",\r\n    \"password\":\"123456\",\r\n    \"idCity\":1,\r\n    \"categories\":[1, 2]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -457,7 +521,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDIzMjk3NDEsImV4cCI6MTczODMyOTc0MX0.neWvvfzr_quzXLzYc_WhkqMX9YUnw9lA2MwKWElPYy8",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDI2NTkwMTksImV4cCI6MTczODY1OTAxOX0.eAhH72CsGsQ8XBbv0TyoDLgHzOstkuqtYcY3lVJFBrw",
 							"type": "string"
 						}
 					]
@@ -469,24 +533,24 @@
 					"formdata": [
 						{
 							"key": "category",
-							"value": "{\n    \"name\":\"Ahorros\",   \n    \"color\":\"#ff9900\",\n    \"orderInMenu\":2\n}",
+							"value": "{\n    \"name\":\"Entretenimiento\",   \n    \"color\":\"#ff9900\",\n    \"orderInMenu\":2\n}",
 							"contentType": "application/json",
 							"type": "text"
 						},
 						{
 							"key": "imageHeader",
 							"type": "file",
-							"src": "/C:/Users/pscag/Pictures/2.jpg"
+							"src": "/C:/Users/pscag/Pictures/25.JPG"
 						},
 						{
 							"key": "imageHeaderMobile",
 							"type": "file",
-							"src": "/C:/Users/pscag/Pictures/13.JPG"
+							"src": "/C:/Users/pscag/Pictures/25.JPG"
 						},
 						{
 							"key": "imageMenu",
 							"type": "file",
-							"src": "/C:/Users/pscag/Pictures/19 Vuelo Vuelta (10).JPG"
+							"src": "/C:/Users/pscag/Pictures/40.jpg"
 						}
 					]
 				},
@@ -691,6 +755,16 @@
 		{
 			"name": "POST Benefit Qualification",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwc2NhbmdvQGdtYWlsLmNvbSIsImlhdCI6MTcwMjUwMjgwMywiZXhwIjoxNzM4NTAyODAzfQ.KCQUXDXAoo9aLCuFMMbDeKyXn13BI8NFhoYC6Wn1WpI",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -907,7 +981,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwc2NhbmdvQGhvdG1haWwuY29tIiwiaWF0IjoxNzAxNTQ1NTgzLCJleHAiOjE3Mzc1NDU1ODN9.EsTq287gGiGHrr8j6TXRCHGLh-0VK7y9SF7syxdykj4",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwc2NhbmdvQGdtYWlsLmNvbSIsImlhdCI6MTcwMjM4Mjc5NywiZXhwIjoxNzM4MzgyNzk3fQ.kLfkP1LvDgYaqSAEzWLozZ9I5LF2jS5LOtzGLmFG7Oc",
 							"type": "string"
 						}
 					]
@@ -915,7 +989,7 @@
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8001/benefit/setAsFav/3",
+					"raw": "http://localhost:8001/benefit/setAsFav/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -924,7 +998,7 @@
 					"path": [
 						"benefit",
 						"setAsFav",
-						"3"
+						"1"
 					]
 				}
 			},

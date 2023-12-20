@@ -1,61 +1,60 @@
-import { useQuery } from '@tanstack/react-query'
-import { useCallback, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { memo } from 'react'
+import { useParams } from 'react-router-dom'
 
 import useMediaQuery from 'Utils/mediaQuery'
-import getImagesCarousel from 'api/getHomeImagesCarousel'
-import type { State } from 'components/BenefitCard/types'
 import Loading from 'components/Loading/Loading'
 
 import MobileView from './componentes/DesktopMobile'
 import DesktopView from './componentes/DesktopView'
+import useGetBenefitById from './useGetBenefitById'
 
 function BenefitDetail() {
-	const location = useLocation()
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-	const { state } = location
-
 	const mobile = useMediaQuery({ query: '(max-width: 768px)' })
 
-	const { nameBenefitsCard, title, description, bgColor, id } = state as State
-	const [isSelected, setIsSelected] = useState(false)
+	const { id } = useParams()
+	const numberBenefitId = id ? Number.parseInt(id, 10) : 0
 
-	const { isLoading, error, data } = useQuery(
-		['ImagesCarousel'],
-		getImagesCarousel
-	)
-	const handleSelectBenefit = useCallback(() => {
-		setIsSelected(previousSelected => !previousSelected)
-	}, [])
+	const GET_BENEFIT_BY_ID = `GET_BENEFIT_BY_ID_${id}`
+
+	const {
+		data: benefitData,
+		isLoading,
+		isError,
+		isSuccess
+	} = useGetBenefitById(numberBenefitId)
 
 	if (isLoading) {
-		return <Loading />
+		return (
+			<div
+				className='flex h-screen items-center justify-center'
+				style={{ flexDirection: 'column' }}
+			>
+				<Loading />
+			</div>
+		)
 	}
-	if (error) <p>No se pudieron cargar las cards...</p>
 
-	return mobile ? (
-		<MobileView
-			bgColor={bgColor}
-			dataCarousel={data}
-			description={description}
-			handleSelectBenefit={handleSelectBenefit}
-			id={id}
-			isSelected={isSelected}
-			nameBenefitsCard={nameBenefitsCard}
-			title={title}
-		/>
-	) : (
-		<DesktopView
-			bgColor={bgColor}
-			dataCarousel={data}
-			description={description}
-			handleSelectBenefit={handleSelectBenefit}
-			id={id}
-			isSelected={isSelected}
-			nameBenefitsCard={nameBenefitsCard}
-			title={title}
-		/>
-	)
+	if (isError) {
+		return (
+			<div
+				className='flex h-screen items-center justify-center'
+				style={{ flexDirection: 'column' }}
+			>
+				<p className='text-center' style={{ margin: 8 }}>
+					Ocurrió un error al cargar el beneficio seleccionado
+				</p>
+			</div>
+		)
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	if (isSuccess) {
+		return mobile ? (
+			<MobileView benefitData={benefitData} keyQueryName={GET_BENEFIT_BY_ID} />
+		) : (
+			<DesktopView benefitData={benefitData} keyQueryName={GET_BENEFIT_BY_ID} />
+		)
+	}
 }
 
-export default BenefitDetail
+export default memo(BenefitDetail)

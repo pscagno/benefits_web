@@ -48,19 +48,29 @@ public class BenefitController {
 
     final private int pageSize = 8;
 
-    private List<BenefitRest> listBenefitRest(List<BenefitEntity> benefits){
+    private List<BenefitRest> listBenefitRest(UserEntity user, List<BenefitEntity> benefits){
         List<BenefitRest> benefitsRest = new ArrayList<>();
         for (BenefitEntity benefit: benefits) {
+
+            Optional<UserBenefitFavoriteEntity> userBenefitFavoriteOptional = userBenefitFavoriteService
+                    .getByUserAndBenefit(
+                            user,
+                            benefit
+                    );
+
             var benefitRest = new BenefitRest();
             BeanUtils.copyProperties(benefit, benefitRest);
+            benefitRest.setUserFavorite(userBenefitFavoriteOptional.isPresent());
             benefitRest.setSubcategoryName(benefit.getSubcategory().getName());
+            benefitRest.setCategoryName(benefit.getSubcategory().getCategory().getName());
+            benefitRest.setCategoryColor(benefit.getSubcategory().getCategory().getColor());
             benefitsRest.add(benefitRest);
         }
         return benefitsRest;
     }
 
-    private ListBenefitsRest getListBenefitRestResponse(int actualPage, Page<BenefitEntity> benefitsPage){
-        List<BenefitRest> benefitsRest = listBenefitRest(benefitsPage.getContent());
+    private ListBenefitsRest getListBenefitRestResponse(UserEntity user, int actualPage, Page<BenefitEntity> benefitsPage){
+        List<BenefitRest> benefitsRest = listBenefitRest(user, benefitsPage.getContent());
         var response = new ListBenefitsRest();
         response.setBenefits(benefitsRest);
         if (actualPage < benefitsPage.getTotalPages() - 1) {
@@ -73,10 +83,38 @@ public class BenefitController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ListBenefitsRest list(@Param("page") int page){
-        if (page < 0){ page = 0; }
-        Page<BenefitEntity> benefitsPage = service.getAll(page, this.pageSize);
-        return this.getListBenefitRestResponse(page, benefitsPage);
+    public ListBenefitsRest list(@RequestHeader (name="Authorization") String token, @Param("page") int page){
+        Optional<UserEntity> userOpt = getTokenUser(token);
+        if (userOpt.isPresent()) {
+            if (page < 0) {
+                page = 0;
+            }
+            Page<BenefitEntity> benefitsPage = service.getAll(page, this.pageSize);
+            return this.getListBenefitRestResponse(userOpt.get(), page, benefitsPage);
+        }else{
+            var response = new ListBenefitsRest();
+            response.setBenefits(new ArrayList<>());
+            response.setNextPage(-1);
+            return response;
+        }
+    }
+
+    @GetMapping("search")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ListBenefitsRest listSearch(@RequestHeader (name="Authorization") String token, @Param("page") int page, @Param("keyword") String keyword){
+        Optional<UserEntity> userOpt = getTokenUser(token);
+        if (userOpt.isPresent()) {
+            if (page < 0) {
+                page = 0;
+            }
+            Page<BenefitEntity> benefitsPage = service.search(page, this.pageSize, keyword);
+            return this.getListBenefitRestResponse(userOpt.get(), page, benefitsPage);
+        }else{
+            var response = new ListBenefitsRest();
+            response.setBenefits(new ArrayList<>());
+            response.setNextPage(-1);
+            return response;
+        }
     }
 
     @GetMapping("/home")
@@ -85,7 +123,7 @@ public class BenefitController {
         Optional<UserEntity> userOpt = getTokenUser(token);
         if (userOpt.isPresent()){
             Page<BenefitEntity> benefitsPage = service.getHomeBenefits(userOpt.get(), page, this.pageSize);
-            return this.getListBenefitRestResponse(page, benefitsPage);
+            return this.getListBenefitRestResponse(userOpt.get(), page, benefitsPage);
         }else{
             var response = new ListBenefitsRest();
             response.setBenefits(new ArrayList<>());
@@ -100,7 +138,7 @@ public class BenefitController {
         Optional<UserEntity> userOpt = getTokenUser(token);
         if (userOpt.isPresent()) {
             Page<BenefitEntity> benefitsPage = service.getUserFavoriteBenefits(userOpt.get().getId(), page, this.pageSize);
-            return this.getListBenefitRestResponse(page, benefitsPage);
+            return this.getListBenefitRestResponse(userOpt.get(), page, benefitsPage);
         }else{
             var response = new ListBenefitsRest();
             response.setBenefits(new ArrayList<>());
@@ -122,7 +160,7 @@ public class BenefitController {
                                                             page,
                                                             this.pageSize
                                                     );
-                return this.getListBenefitRestResponse(page, benefitsPage);
+                return this.getListBenefitRestResponse(userOpt.get(), page, benefitsPage);
             }
         }
         var response = new ListBenefitsRest();
@@ -144,7 +182,7 @@ public class BenefitController {
                                                         page,
                                                         this.pageSize
                                                     );
-                return this.getListBenefitRestResponse(page, benefitsPage);
+                return this.getListBenefitRestResponse(userOpt.get(), page, benefitsPage);
             }
         }
         var response = new ListBenefitsRest();
@@ -177,7 +215,10 @@ public class BenefitController {
                 var benefit = benefitOptional.get();
                 BeanUtils.copyProperties(benefit, benefitRest);
                 benefitRest.setRegion(benefit.getRegionsDescription());
+                benefitRest.setCategoryId(benefit.getSubcategory().getCategory().getId());
                 benefitRest.setCategoryName(benefit.getSubcategory().getCategory().getName());
+                benefitRest.setCategoryColor(benefit.getSubcategory().getCategory().getColor());
+                benefitRest.setSubcategoryId(benefit.getSubcategory().getId());
                 benefitRest.setSubcategoryName(benefit.getSubcategory().getName());
                 benefitRest.setUserFavorite(userBenefitFavoriteOptional.isPresent());
                 benefitQualificationOptional.ifPresent(

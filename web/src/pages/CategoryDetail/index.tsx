@@ -1,35 +1,37 @@
-import { useQuery } from '@tanstack/react-query'
+import { memo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import useMediaQuery from 'Utils/mediaQuery'
-import getCards from 'api/getCards'
-import getCategoryById from 'api/getCategoryById'
+import getBenefitsByCategory from 'api/getBenefitsByCategory'
+import getBenefitsBySubcategory from 'api/getBenefitsBySubcategory'
 import BenefitsCards from 'components/CardsBenefits'
 import Loading from 'components/Loading/Loading'
-import OurValues from 'components/OurValues'
-import SearchInput from 'components/SearchInput'
 import Partners from 'pages/Home/components/Partners'
-import type { Category } from 'types/category'
+
+import useGetCategoryById from './useGetCategoryById'
 
 function CategoryDetail() {
 	const mobile = useMediaQuery({ query: '(max-width: 768px)' })
-	const { id } = useParams()
 
-	const numberId = id ? Number.parseInt(id, 10) : 0
-	const { data: categoryData } = useQuery(
-		['category', numberId],
-		getCategoryById
-	)
-	const { data: cardsData } = useQuery(['benefitsCards'], getCards)
+	const { id, subcategoryId } = useParams()
+	const numberCategoryId = id ? Number.parseInt(id, 10) : 0
+	const numberSubcategoryId = subcategoryId
+		? Number.parseInt(subcategoryId, 10)
+		: 0
 
-	if (cardsData === undefined || categoryData === undefined) {
+	const { data: categoryData } = useGetCategoryById(numberCategoryId)
+	const isSubcategory = !!subcategoryId
+
+	if (categoryData === undefined) {
 		return <Loading />
 	}
 
-	console.log(cardsData)
+	const { imageHeader, imageHeaderMobile, color, name, subcategories } =
+		categoryData
 
-	const { imageHeader, imageHeaderMobile, color, name } =
-		categoryData as Category
+	const subcategoryName = subcategories.find(
+		subcategory => subcategory.id === numberSubcategoryId
+	)?.name
 
 	return (
 		<div className='mt-[81px] h-full w-full bg-white'>
@@ -44,31 +46,39 @@ function CategoryDetail() {
 			</div>
 			<div className='container-benefitName relative mb-8 w-full'>
 				<div
-					className='h-ful uppercase; flex w-full justify-center font-TitilliumWeb text-[22px] font-semibold leading-[3.625rem] text-white'
+					className='h-ful uppercase; flex w-full justify-center font-TitilliumWeb text-[22px] font-semibold leading-[3.625rem] text-white sm:text-[20px]'
 					style={{
 						backgroundColor: color
 					}}
 				>
-					{name}
+					{subcategoryName ? `${name} - ${subcategoryName}` : name}
 				</div>
 			</div>
-			<div className='container-searchInput mb-8 flex h-[15%] w-full items-center justify-center'>
-				<div className='w-full sm:w-[636px]'>
-					<SearchInput />
-				</div>
-			</div>
-			<div className='container-benefitTextName mb-8 w-full'>
+			<div className='container-benefitTextName w-full'>
 				<div className='h-ful flex w-full justify-center font-TitilliumWeb text-[22px] font-semibold leading-[3.625rem] text-primary-description'>
-					<p>Encuentra un beneficio de</p>
-					<p className='pl-[5px] lowercase'>{name}</p>
+					<p className='px-4 text-center'>
+						Encuentra un beneficio de {name.toLowerCase()}
+					</p>
 				</div>
 			</div>
-			<BenefitsCards data={cardsData} />
-
+			<div className='mt-[-60px]'>
+				<BenefitsCards
+					bg='bg-[#FFFFFF]'
+					getBenefits={
+						isSubcategory ? getBenefitsBySubcategory : getBenefitsByCategory
+					}
+					header={`Encuentra un beneficio de ${
+						subcategoryName ? `${name} - ${subcategoryName}` : name
+					}`}
+					headerSize='base'
+					id={isSubcategory ? numberSubcategoryId : numberCategoryId}
+					keyQueryName={subcategoryName ? `${name} - ${subcategoryName}` : name}
+				/>
+			</div>
+			<hr />
 			<Partners />
-			<OurValues />
 		</div>
 	)
 }
 
-export default CategoryDetail
+export default memo(CategoryDetail)

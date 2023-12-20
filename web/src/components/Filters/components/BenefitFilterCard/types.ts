@@ -1,5 +1,5 @@
 export interface Props {
-	logoType: 'health' | 'none'
+	logoType: string
 	name: string
 	color: string
 }

@@ -2,6 +2,7 @@ package com.santre.macro.benefits.domain.controller;
 
 import com.santre.macro.benefits.domain.entity.CityEntity;
 import com.santre.macro.benefits.domain.service.CityService;
+import com.santre.macro.benefits.domain.service.ProvinceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,10 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("city")
@@ -22,9 +20,22 @@ public class CityController {
     @Autowired
     private CityService service;
 
+    @Autowired
+    private ProvinceService serviceProvince;
+
     @GetMapping
     public List<CityEntity> list(){
         return service.getAll();
+    }
+
+    @GetMapping("/province/{id}")
+    public List<CityEntity> listCitiesByProvince(@PathVariable Long id){
+        var province = serviceProvince.getById(id);
+        if (province.isPresent()) {
+            return service.getAllByProvince(province.get());
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     @GetMapping("/{id}")

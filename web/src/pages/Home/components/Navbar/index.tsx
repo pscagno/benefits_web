@@ -7,7 +7,6 @@ import HeartMenuIcon from 'assets/HeartMenuIcon/heartMenuIcon'
 import HeartMenuIconMobile from 'assets/HeartMenuIconMobile'
 import MacroIcon from 'assets/MacroIcon'
 import MacroIconMobile from 'assets/MacroIconMobile'
-import PowerIcon from 'assets/PowerIcon'
 import ProfileIcon from 'assets/ProfileIcon'
 import ProfileIconMobile from 'assets/ProfileIconMobile'
 import Button from 'components/Button'
@@ -60,19 +59,10 @@ function Navbar() {
 				>
 					{mobile ? <ProfileIconMobile /> : <ProfileIcon />}
 					<p className='font-TitilliumWeb text-[15px] font-semibold text-primary sm:hidden'>
-						Alejandro
+						{' '}
 					</p>
 				</button>
-				{location.pathname !== '/register' &&
-					location.pathname !== '/login' && (
-						<button
-							className='top-[21px] h-[37px] sm:hidden'
-							onClick={() => alert('Esta seguro de cerrar sesion?')} // TODO
-							type='button'
-						>
-							<PowerIcon />
-						</button>
-					)}
+				{/* <LogoutButton /> */}
 				<ButtonBurger />
 			</div>
 		</div>

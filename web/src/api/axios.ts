@@ -9,12 +9,18 @@ interface Config {
 
 const apiConfig: Config = config
 
-// Axios instance for API calls
 const api = axios.create({
 	baseURL: apiConfig.baseURL,
-	headers: {
-		Authorization: `Bearer ${apiConfig.token}`
-	}
 })
+
+export const addBearerToken = (token: string) => {
+	api.defaults.headers.common = {
+		Authorization: `Bearer ${token}`
+	}
+}
+
+export const removeHeadersAuthorization = () => {
+	delete api.defaults.headers.common.Authorization
+}
 
 export default api

@@ -38,7 +38,7 @@ function NotFound() {
 			</div>
 			<Filters />
 			<OurValues />
-			<div className='w-50 min-h-[50px]'>FOOTER</div>
+			{/* <div className='w-50 min-h-[50px]'>FOOTER</div> */}
 		</div>
 	)
 }

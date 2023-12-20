@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-
 import BannerFavoritesImg from 'assets/images/Banner-Favorites.png'
 import BannerMobile from 'assets/images/dashi-header-mobile.png'
 

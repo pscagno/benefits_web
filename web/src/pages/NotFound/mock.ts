@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-
 import BannerError from 'assets/images/Banner-Error.png'
 import BannerErrorMobile from 'assets/images/dashi-header-mobile.png'
 

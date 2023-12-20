@@ -1,18 +1,34 @@
-export interface Preferences {
-	salud?: boolean
-	balance?: boolean
-	gastronomia?: boolean
-	campanas?: boolean
-	celebraciones?: boolean
-	productosBancarios?: boolean
-	alianzas?: boolean
-	sorteos?: boolean
+export interface CityProps {
+	id: number
+	name: string
+	province: ProvinceProps
 }
 
-export interface FormData {
-	userName: string
+export interface ProvinceProps {
+	id: number
+	name: string
+}
+
+export interface UserProfileProps {
+	id: number
+	name: string
 	email: string
-	region: string
-	province: string
-	preferences?: Preferences
+}
+
+export interface CategoryProps {
+	id: number
+	name: string
+}
+
+export interface ProfileFormProps {
+	cities: CityProps[]
+	provinces: ProvinceProps[]
+	userProfile: UserProfileProps
+	categories: CategoryProps[]
+}
+export interface FormValues {
+	name: string
+	email: string
+	provinceId: string
+	idCity: string
 }

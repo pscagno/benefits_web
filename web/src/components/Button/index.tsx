@@ -16,8 +16,8 @@ function Button({
 }: Props) {
 	return (
 		<button
-			className={`h-auto min-h-[40px] min-w-[144px] transform items-center rounded-[50px] px-[29px] transition-colors duration-300 ease-in hover:bg-[#FF4351] 
-        ${buttonColor ?? 'bg-benefits'} 
+			className={`h-auto min-h-[40px] min-w-[144px] transform items-center rounded-[50px] px-[29px] transition-colors duration-300 ease-in hover:bg-[#FF4351]
+        ${buttonColor ?? 'bg-benefits'}
 				${paddingY ?? 'py-2'}
 				${width ?? 'w-auto'}
        `}
@@ -32,7 +32,7 @@ function Button({
 					textSize ?? 'text-sm'
 				}`}
 			>
-				{text ?? 'Ingrese texto'}
+				{text}
 			</p>
 			{icon}
 		</button>

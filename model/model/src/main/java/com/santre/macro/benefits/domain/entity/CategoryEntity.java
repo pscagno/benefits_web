@@ -41,6 +41,10 @@ public class CategoryEntity {
     @OneToMany(cascade=CascadeType.ALL, orphanRemoval = true, mappedBy = "category")
     private List<SubcategoryEntity> subcategories = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_categories", joinColumns = @JoinColumn(name = "user_entity_id"), inverseJoinColumns = @JoinColumn(name = "category_entity_id"))
+    private List<UserEntity> users = new ArrayList<>();
+
     public Long getId() {
         return id;
     }
@@ -104,5 +108,13 @@ public class CategoryEntity {
 
     public void setSubcategories(List<SubcategoryEntity> subcategories) {
         this.subcategories = subcategories;
+    }
+
+    public List<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
     }
 }

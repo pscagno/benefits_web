@@ -1,8 +1,17 @@
+/* eslint-disable react/no-multi-comp */
 import type { ReactElement } from 'react'
-import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Suspense, lazy } from 'react'
+import {
+	Navigate,
+	Outlet,
+	RouterProvider,
+	createBrowserRouter
+} from 'react-router-dom'
 
+import BannerLogin from 'components/BannerLogin'
 import LoadingOrError from 'components/LoadingOrError/LoadingOrError'
+import OurValues from 'components/OurValues'
+import { useAuth } from 'context/AuthContext'
 import Navbar from 'pages/Home/components/Navbar'
 
 const Home = lazy(async () => import('pages/Home'))
@@ -11,31 +20,62 @@ const CategoryDetail = lazy(async () => import('pages/CategoryDetail'))
 const Profile = lazy(async () => import('pages/Profile'))
 const Login = lazy(async () => import('pages/Login'))
 const Favorites = lazy(async () => import('pages/Favorites'))
-const NotFound = lazy(async () => import('pages/NotFound'))
 const Register = lazy(async () => import('pages/Register'))
 const RecoveryPassword = lazy(async () => import('pages/RecoveryPassword'))
 const SetNewPassword = lazy(async () => import('pages/SetNewPassword'))
 
-export default function App(): ReactElement {
+function PrivateLayout() {
 	return (
-		<BrowserRouter>
+		<>
+			<Navbar />
 			<Suspense fallback={<LoadingOrError />}>
-				<Navbar />
-				<Routes>
-					<Route element={<Home />} path='/' />
-					<Route element={<Login />} path='login' />
-					<Route element={<BenefitDetail />} path='/benefit/:id' />
-					<Route element={<CategoryDetail />} path='/category/:id' />
-					<Route element={<Profile />} path='/user/:id' />
-					<Route element={<Favorites />} path='favorites' />
-					<Route element={<NotFound />} path='*' />
-					<Route element={<Login />} path='login' />
-					<Route element={<Favorites />} path='/user/favorites' />
-					<Route element={<Register />} path='register' />
-					<Route element={<RecoveryPassword />} path='recovery' />
-					<Route element={<SetNewPassword />} path='setnewpassword' />
-				</Routes>
+				<Outlet />
 			</Suspense>
-		</BrowserRouter>
+			<OurValues />
+			{/* <div className='w-50 min-h-[50px]' style={{height: 50 }}>FOOTER</div> */}
+		</>
 	)
+}
+
+function Layout() {
+	return (
+		<div className='mt-[81px] flex h-full w-full flex-col items-center bg-white'>
+			<BannerLogin />
+			<Suspense fallback={<LoadingOrError />}>
+				<Outlet />
+			</Suspense>
+			<OurValues />
+		</div>
+	)
+}
+
+const privateRoutes = {
+	element: <PrivateLayout />,
+	children: [
+		{ element: <Home />, path: '/' },
+		{ element: <BenefitDetail />, path: '/benefit/:id' },
+		{
+			element: <CategoryDetail />,
+			path: '/category/:id/subcategory/:subcategoryId'
+		},
+		{ element: <CategoryDetail />, path: '/category/:id' },
+		{ element: <Profile />, path: '/user/:id' },
+		{ element: <Favorites />, path: 'favorites' },
+		{ path: '*', element: <Navigate to='/' replace /> }
+	]
+}
+
+const routes = {
+	element: <Layout />,
+	children: [
+		{ element: <Register />, path: '/register' },
+		{ path: '*', element: <Navigate to='/register' replace /> }
+	]
+}
+
+export default function App(): ReactElement {
+	const { isAuthenticated } = useAuth()
+	const router = createBrowserRouter([isAuthenticated ? privateRoutes : routes])
+
+	return <RouterProvider router={router} />
 }

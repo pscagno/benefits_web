@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,13 @@ public class BenefitServiceImpl implements  BenefitService {
     public Page<BenefitEntity> getAll(int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
         return repository.findAll(pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<BenefitEntity> search(int page, int size, String keyword){
+        PageRequest pageable = PageRequest.of(page, size);
+        return repository.findBySomeFieldContaining(pageable, keyword);
     }
 
     @Override

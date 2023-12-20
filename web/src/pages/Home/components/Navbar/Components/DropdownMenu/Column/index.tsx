@@ -24,6 +24,7 @@ function Column({
 				{categoryExpanded === category.id &&
 					category.subcategories.map(subcategory => (
 						<SubcategoryButton
+							category={category}
 							key={subcategory.id}
 							setOpenMenu={setOpenMenu}
 							subcategory={subcategory}

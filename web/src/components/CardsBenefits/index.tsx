@@ -5,36 +5,58 @@ import useMediaQuery from 'Utils/mediaQuery'
 import BenefitCardDesktop from 'components/BenefitCard/BenefitCardDesktop'
 import BenefitCardMobile from 'components/BenefitCard/BenefitCardMobile'
 import type { State } from 'components/BenefitCard/types'
+import BenefitCardSkeleton from 'components/BenefitCardSkeleton'
 import Button from 'components/Button'
+import useGetBenefits from 'components/CardsBenefits/hooks/useGetBenefits'
 import Loading from 'components/Loading/Loading'
+import type { Props } from 'types/cardBenefits'
 
-import type { Props } from './types'
-
-function onClickMoreCards() {
-	// eslint-disable-next-line no-console
-	console.log('onClickMoreCards')
-}
-
-function BenefitsCards({ data, header, bg, headerSize }: Props) {
+function BenefitsCards({
+	header,
+	bg,
+	headerSize,
+	getBenefits,
+	keyQueryName,
+	id
+}: Props) {
+	// TODO zeque tenes que revisar esto
+	const {
+		benefitsIsLoading,
+		benefitsResponse,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage
+	} = useGetBenefits(getBenefits, keyQueryName, id)
 	const navigate = useNavigate()
 	const mobile = useMediaQuery({ query: '(max-width: 768px)' })
 
 	const onClickRedirectDetailButton = useCallback(
 		(id: number, state: State) => {
-			const { nameBenefitsCard, imageList, title, description, bgColor } = state
+			const {
+				nameBenefitsCard,
+				imageList,
+				title,
+				description,
+				bgColor,
+				userFavorite
+			} = state
 			navigate(`/benefit/${id}`, {
-				state: { nameBenefitsCard, imageList, title, description, bgColor, id }
+				state: {
+					nameBenefitsCard,
+					imageList,
+					title,
+					description,
+					bgColor,
+					id,
+					userFavorite
+				}
 			})
 		},
 		[navigate]
 	)
 
-	if (data.length < 0) {
-		return (
-			<div className='flex justify-center'>
-				<Loading />
-			</div>
-		)
+	const handleLoadMore = async () => {
+		await fetchNextPage()
 	}
 
 	return (
@@ -49,38 +71,60 @@ function BenefitsCards({ data, header, bg, headerSize }: Props) {
 				</h1>
 			)}
 			<div className='grid place-content-center'>
-				<div className='mx-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-12 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4 lp:grid-cols-3'>
-					{data.map(card =>
-						mobile ? (
-							<BenefitCardMobile
-								bgColor={card.bgColor}
-								description={card.description}
-								id={card.id}
-								imageList={card.imageList}
-								key={card.id}
-								nameBenefitsCard={card.nameBenefitsCard}
-								onClickButton={onClickRedirectDetailButton}
-								qualification={card.qualification}
-								title={card.title}
-							/>
-						) : (
-							<BenefitCardDesktop
-								bgColor={card.bgColor}
-								description={card.description}
-								id={card.id}
-								imageList={card.imageList}
-								key={card.id}
-								nameBenefitsCard={card.nameBenefitsCard}
-								onClickButton={onClickRedirectDetailButton}
-								qualification={card.qualification}
-								title={card.title}
-							/>
-						)
-					)}
-				</div>
-				<div className='mx-auto my-[26px]'>
-					<Button onClick={onClickMoreCards} text='Ver más beneficios' />
-				</div>
+				{benefitsResponse?.length === 0 && (
+					<h1 className='text-[20px] font-[600] leading-normal text-primary-description'>
+						🚧 Aún no hay beneficios disponibles 🚧
+					</h1>
+				)}
+				{benefitsIsLoading ? (
+					<BenefitCardSkeleton cards={8} />
+				) : (
+					<>
+						<div className='mx-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-12 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4 lp:grid-cols-3'>
+							{benefitsResponse?.map(card =>
+								mobile ? (
+									<BenefitCardMobile
+										bgColor={card.categoryColor}
+										description={card.description}
+										id={card.id}
+										imageList={card.imageList}
+										key={card.id}
+										keyQueryName={keyQueryName}
+										nameBenefitsCard={card.categoryName}
+										onClickButton={onClickRedirectDetailButton}
+										qualification={card.qualification}
+										title={card.title}
+										userFavorite={card.userFavorite}
+									/>
+								) : (
+									<BenefitCardDesktop
+										bgColor={card.categoryColor}
+										description={card.description}
+										id={card.id}
+										imageList={card.imageList}
+										key={card.id}
+										keyQueryName={keyQueryName}
+										nameBenefitsCard={card.categoryName}
+										onClickButton={onClickRedirectDetailButton}
+										qualification={card.qualification}
+										title={card.title}
+										userFavorite={card.userFavorite}
+									/>
+								)
+							)}
+						</div>
+						<div className='mx-auto my-[28px]'>
+							{hasNextPage && (
+								<Button
+									icon={isFetchingNextPage ? <Loading /> : undefined}
+									onClick={handleLoadMore}
+									paddingY={isFetchingNextPage ? 'py-0 pt-[5px]' : ''}
+									text={isFetchingNextPage ? undefined : 'Ver más beneficios'}
+								/>
+							)}
+						</div>
+					</>
+				)}
 			</div>
 		</section>
 	)

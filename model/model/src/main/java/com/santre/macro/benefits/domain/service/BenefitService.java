@@ -4,6 +4,7 @@ import com.santre.macro.benefits.domain.entity.BenefitEntity;
 import com.santre.macro.benefits.domain.entity.CategoryEntity;
 import com.santre.macro.benefits.domain.entity.SubcategoryEntity;
 import com.santre.macro.benefits.domain.entity.UserEntity;
+import jakarta.validation.constraints.Null;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public interface BenefitService {
 
     Page<BenefitEntity> getAll(int page, int size);
+
+    Page<BenefitEntity> search(int page, int size, String keyword);
 
     Page<BenefitEntity> getHomeBenefits(UserEntity user, int page, int size);
 

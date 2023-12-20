@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-
 const styles = {
 	'carousel-container': {
 		width: '100%',

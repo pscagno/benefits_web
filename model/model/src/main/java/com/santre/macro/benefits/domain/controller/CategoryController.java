@@ -71,6 +71,8 @@ public class CategoryController {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
                         .body("La categoria esta relacionada con un beneficio. Elimine o modifique el beneficio.");
             }
+            var category = service.getById(id);
+
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {

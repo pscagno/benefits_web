@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 import OurValuesData from 'components/OurValues/components/cardValues/mock'
 
 async function getValues() {

@@ -3,8 +3,10 @@ package com.santre.macro.benefits.domain.controller;
 import com.santre.macro.benefits.domain.entity.BenefitEntity;
 import com.santre.macro.benefits.domain.entity.BenefitQualificationEntity;
 import com.santre.macro.benefits.domain.entity.UserEntity;
+import com.santre.macro.benefits.domain.models.responses.ListBenefitsRest;
 import com.santre.macro.benefits.domain.service.BenefitQualificationService;
 import com.santre.macro.benefits.domain.service.BenefitService;
+import com.santre.macro.benefits.domain.service.JwtService;
 import com.santre.macro.benefits.domain.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class BenefitQualificationController {
 
     @Autowired
     private UserService serviceUsers;
+
+    @Autowired
+    private JwtService jwtService;
 
     @GetMapping("/benefit/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
@@ -66,22 +71,39 @@ public class BenefitQualificationController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> create(@RequestBody @Valid BenefitQualificationEntity benefitQualification, BindingResult result){
-        if (result.hasErrors()){
-            return validate(result);
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> create(
+            @RequestHeader (name="Authorization") String token,
+            @RequestBody @Valid BenefitQualificationEntity benefitQualification,
+            BindingResult result)
+    {
+        Optional<UserEntity> userOpt = getTokenUser(token);
+        if (userOpt.isPresent()) {
+            if (result.hasErrors()) {
+                return validate(result);
+            }
+
+            Optional<BenefitEntity> benefit = serviceBenefit.getById(benefitQualification.getBenefit().getId());
+            if (benefit.isPresent()) {
+                Optional<BenefitQualificationEntity> benefitQualificationDb = service
+                        .getByBenefitAndUser(benefit.get(), userOpt.get());
+                if (benefitQualificationDb.isPresent()){
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .body("El beneficio ya fue calificado por el usuario.");
+                }
+                benefitQualification.setBenefit(benefit.get());
+
+                benefitQualification.setDate(new Date());
+                benefitQualification.setUser(userOpt.get());
+                return ResponseEntity.status(HttpStatus.CREATED).body(service.save(benefitQualification));
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Beneficio invalido");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Error grave");
         }
-        Optional<UserEntity> user = serviceUsers.getAll().stream().findFirst();
-        if (user.isEmpty()) {
-            throw new RuntimeException("No hay ningún usuario identificado.");
-        }
-        Optional<BenefitEntity> benefit = serviceBenefit.getById(benefitQualification.getBenefit().getId());
-        if (benefit.isPresent()){
-            benefitQualification.setBenefit(benefit.get());
-        }
-        benefitQualification.setDate(new Date());
-        benefitQualification.setUser(user.get());
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(benefitQualification));
     }
 
     private static ResponseEntity<Map<String, String>> validate(BindingResult result) {
@@ -92,4 +114,9 @@ public class BenefitQualificationController {
         return ResponseEntity.badRequest().body(errors);
     }
 
+    private Optional<UserEntity> getTokenUser(String token){
+        var token_without_bearer = token.substring(7);
+        var email = jwtService.extractUserName(token_without_bearer);
+        return serviceUsers.getByEmail(email);
+    }
 }

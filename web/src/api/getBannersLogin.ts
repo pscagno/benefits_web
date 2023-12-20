@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 import ImageBannersLogin from 'mock'
 
 async function getBannersLogin() {

@@ -13,7 +13,7 @@ function CategoryButton({ setOpenMenu, category }: Props) {
 
 	const handleNavigateToCategory = useCallback(() => {
 		setOpenMenu(previousOpenState => !previousOpenState)
-		navigate(`/${category.name}`)
+		navigate(`/category/${category.id}`)
 	}, [setOpenMenu, navigate, category])
 
 	const handleSetIsArrowVisibleOn = useCallback(() => {

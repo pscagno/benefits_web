@@ -1,4 +1,4 @@
 export interface Props {
-	title: string
-	titleRedirectId: number
+	categoryName: string
+	categoryId: number
 }
