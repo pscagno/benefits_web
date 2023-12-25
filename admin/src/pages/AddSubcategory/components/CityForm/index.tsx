@@ -20,9 +20,9 @@ interface Props {
 
 function SubcategoryForm({ onSubmit, categories }: Props) {
 	const [subcategory, setSubcategory] = useState({
-		name: 'Subcategoría desde Backoffice',
+		name: '',
 		category: {
-			id: 1
+			id: 0
 		}
 	})
 

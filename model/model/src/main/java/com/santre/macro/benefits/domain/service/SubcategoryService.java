@@ -11,6 +11,8 @@ public interface SubcategoryService {
 
     Optional<SubcategoryEntity> getById(Long id);
 
+    Optional<SubcategoryEntity> getByName(String name);
+
     SubcategoryEntity save(SubcategoryEntity subcategory);
 
     void delete(Long id);

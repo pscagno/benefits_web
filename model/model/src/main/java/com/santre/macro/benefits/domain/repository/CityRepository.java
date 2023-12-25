@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CityRepository extends CrudRepository<CityEntity, Long> {
 
     List<CityEntity> findByProvince(ProvinceEntity province);
 
+    Optional<CityEntity> findByName(String name);
 }

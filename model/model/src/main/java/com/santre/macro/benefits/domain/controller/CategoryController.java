@@ -3,10 +3,12 @@ package com.santre.macro.benefits.domain.controller;
 import com.santre.macro.benefits.domain.entity.BenefitEntity;
 import com.santre.macro.benefits.domain.entity.CategoryEntity;
 import com.santre.macro.benefits.domain.entity.UserBenefitFavoriteEntity;
+import com.santre.macro.benefits.domain.entity.UserEntity;
 import com.santre.macro.benefits.domain.models.responses.BenefitDetailRest;
 import com.santre.macro.benefits.domain.models.responses.BenefitRest;
 import com.santre.macro.benefits.domain.models.responses.CategoryDetailRest;
 import com.santre.macro.benefits.domain.models.responses.CategoryRest;
+import com.santre.macro.benefits.domain.repository.UserRepository;
 import com.santre.macro.benefits.domain.service.BenefitService;
 import com.santre.macro.benefits.domain.service.CategoryService;
 import jakarta.validation.Valid;
@@ -31,6 +33,8 @@ public class CategoryController {
 
     @Autowired
     private BenefitService benefitsService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public List<CategoryRest> list(){
@@ -72,9 +76,10 @@ public class CategoryController {
                         .body("La categoria esta relacionada con un beneficio. Elimine o modifique el beneficio.");
             }
             var category = service.getById(id);
-
-            service.delete(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            if (category.isPresent()) {
+                service.delete(id);
+            }
+            return ResponseEntity.status(HttpStatus.OK).build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -91,6 +96,12 @@ public class CategoryController {
         if (result.hasErrors()){
             return validate(result);
         }
+
+        var categoryDb = service.getByName(category.getName());
+        if (categoryDb.isPresent()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La categoria ya existe");
+        }
+
         category.setImageHeader(imageHeader.getBytes());
         category.setImageHeaderMobile(imageHeaderMobile.getBytes());
         category.setImageMenu(imageMenu.getBytes());
@@ -100,19 +111,17 @@ public class CategoryController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> edit(
-            @RequestPart("category") @Valid CategoryEntity category,
+            @RequestPart("category") CategoryEntity category,
             @RequestPart("imageHeader") Optional<MultipartFile> imageHeader,
             @RequestPart("imageHeaderMobile") Optional<MultipartFile> imageHeaderMobile,
             @RequestPart("imageMenu") Optional<MultipartFile> imageMenu,
-            BindingResult result,
             @PathVariable Long id){
-        if (result.hasErrors()){
-            return validate(result);
-        }
         Optional<CategoryEntity> CategoryOptional = service.getById(id);
         if (CategoryOptional.isPresent()) {
             CategoryEntity categoryDb = CategoryOptional.get();
-            BeanUtils.copyProperties(category, categoryDb);
+            categoryDb.setColor(category.getColor());
+            categoryDb.setName(category.getName());
+            categoryDb.setOrderInMenu(category.getOrderInMenu());
             imageMenu.ifPresent(multipartFile -> {
                 try { categoryDb.setImageMenu(multipartFile.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
             });

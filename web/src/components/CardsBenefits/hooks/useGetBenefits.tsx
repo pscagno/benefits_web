@@ -6,7 +6,8 @@ import type { GetBenefitsFunction } from './types'
 function useGetBenefits(
 	getBenefits: GetBenefitsFunction,
 	keyQueryName: string,
-	id?: number
+	id?: number,
+	initSearch?: string
 ) {
 	const {
 		isLoading,
@@ -18,7 +19,7 @@ function useGetBenefits(
 	} = useInfiniteQuery<{
 		nextCursor: number
 		benefits: BenefitsCard[]
-	}>([keyQueryName], async context => getBenefits(context, id), {
+	}>([keyQueryName], async context => getBenefits(context, id, initSearch), {
 		getNextPageParam: lastPage => lastPage.nextCursor
 	})
 	const benefits = data?.pages.flatMap(page => page.benefits)

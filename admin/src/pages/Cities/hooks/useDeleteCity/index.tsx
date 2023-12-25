@@ -1,20 +1,37 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import api from 'api/axios'
-import { CITIES_FETCH } from 'hooks/useGetCities'
+import api from 'api/axios';
+import { useMultipleNotificationContext } from 'context/MultipleNotificationContext';
+import { CITIES_FETCH } from 'hooks/useGetCities';
+import useRedirect from 'hooks/useRedirect';
 
-const deleteCity = async (id: number) => api.delete(`/city/${id}`)
+const deleteCity = async (id: number) => api.delete(`/city/${id}`);
 
 const useDeleteCity = () => {
-	const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
+    const { addNotification } = useMultipleNotificationContext();
+    const redirectTo = useRedirect();
 
-	const onSuccess = async () => {
-		await queryClient.refetchQueries([CITIES_FETCH])
-	}
+    const onSuccess = async () => {
+        await queryClient.refetchQueries([CITIES_FETCH]);
+        addNotification({
+            message: 'Región eliminada exitosamente',
+            variant: 'success',
+        });
+        redirectTo('/cities');
+    };
 
-	return useMutation(deleteCity, {
-		onSuccess
-	})
-}
+    const onError = () => {
+        addNotification({
+            message: 'Ocurrió un error al eliminar la región',
+            variant: 'error',
+        });
+    };
 
-export default useDeleteCity
+    return useMutation(deleteCity, {
+        onSuccess,
+        onError,
+    });
+};
+
+export default useDeleteCity;

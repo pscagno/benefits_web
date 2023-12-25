@@ -1,6 +1,7 @@
 package com.santre.macro.benefits.domain.controller;
 
 import com.santre.macro.benefits.domain.entity.BenefitRegionEntity;
+import com.santre.macro.benefits.domain.entity.SubcategoryEntity;
 import com.santre.macro.benefits.domain.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,24 @@ public class BenefitRegionController {
     private CityService cityService;
     @Autowired
     private BenefitRegionService service;
+    @Autowired
+    private BenefitService serviceBenefit;
+
+    @GetMapping("/benefit/{id}")
+    public ResponseEntity<?> list(@PathVariable Long id){
+        var benefitOpt = serviceBenefit.getById(id);
+        if (benefitOpt.isPresent()) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(
+                        service.getAllByBenefit(benefitOpt.get())
+                    );
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Beneficio no encontrado");
+        }
+    }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -37,33 +56,35 @@ public class BenefitRegionController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> create(@RequestBody @Valid BenefitRegionEntity benefitRegion, BindingResult result){
+    public ResponseEntity<?> create(@RequestBody @Valid List<BenefitRegionEntity> benefitRegions, BindingResult result){
         if (result.hasErrors()){
             return validate(result);
         }
         try {
-            Optional<BenefitRegionEntity> regiondb = Optional.empty();
-            if (benefitRegion.getCity() == null && benefitRegion.getProvince() == null) {
-                regiondb = service.getByBenefitProvinceCity(benefitRegion.getBenefit(), Optional.empty(), Optional.empty());
-            } else if (benefitRegion.getCity() == null) {
-                regiondb = service.getByBenefitProvinceCity(benefitRegion.getBenefit(), Optional.of(benefitRegion.getProvince()), Optional.empty());
-            } else {
-                regiondb = service.getByBenefitProvinceCity(benefitRegion.getBenefit(), Optional.of(benefitRegion.getProvince()), Optional.of(benefitRegion.getCity()));
-            }
-            if (regiondb.isPresent()){
-                throw new Exception("The region already exist for the benefit.");
-            }
+            for (var benefitRegion:benefitRegions) {
+                Optional<BenefitRegionEntity> regiondb = Optional.empty();
+                if (benefitRegion.getCity() == null && benefitRegion.getProvince() == null) {
+                    regiondb = service.getByBenefitProvinceCity(benefitRegion.getBenefit(), Optional.empty(), Optional.empty());
+                } else if (benefitRegion.getCity() == null) {
+                    regiondb = service.getByBenefitProvinceCity(benefitRegion.getBenefit(), Optional.of(benefitRegion.getProvince()), Optional.empty());
+                } else {
+                    regiondb = service.getByBenefitProvinceCity(benefitRegion.getBenefit(), Optional.of(benefitRegion.getProvince()), Optional.of(benefitRegion.getCity()));
+                }
+                if (regiondb.isPresent()) {
+                    throw new Exception("The region already exist for the benefit.");
+                }
 
-            if (benefitRegion.getCity() != null) {
-                var cityOptional = cityService.getById(benefitRegion.getCity().getId());
-                if (cityOptional.isPresent()) {
-                    var city = cityOptional.get();
-                    if (!city.getProvince().getId().equals(benefitRegion.getProvince().getId())) {
-                        throw new Exception("Error: City doesn't belong to province.");
+                if (benefitRegion.getCity() != null) {
+                    var cityOptional = cityService.getById(benefitRegion.getCity().getId());
+                    if (cityOptional.isPresent()) {
+                        var city = cityOptional.get();
+                        if (!city.getProvince().getId().equals(benefitRegion.getProvince().getId())) {
+                            throw new Exception("Error: City doesn't belong to province.");
+                        }
                     }
                 }
+                var br = service.save(benefitRegion);
             }
-            var br = service.save(benefitRegion);
             return ResponseEntity.status(HttpStatus.CREATED).body("ok");
         }catch (DataIntegrityViolationException ex){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Inconsistency data.");

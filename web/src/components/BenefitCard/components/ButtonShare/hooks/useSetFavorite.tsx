@@ -11,6 +11,9 @@ function useSetFavorite(keyQueryName: string, id: number) {
 		onSuccess: () => {
 			const GET_BENEFIT_BY_ID = `GET_BENEFIT_BY_ID_${id}`
 			void queryClient.refetchQueries([GET_BENEFIT_BY_ID])
+			void queryClient.refetchQueries(['benefitsHome'])
+			void queryClient.refetchQueries(['benefitsFav'])
+
 			queryClient.setQueryData(
 				[keyQueryName],
 				(oldData: OldData | undefined) => {
@@ -18,16 +21,16 @@ function useSetFavorite(keyQueryName: string, id: number) {
 						return oldData
 					}
 
+					const updatedPages = oldData.pages.map(page => ({
+						...page,
+						benefits: page.benefits.map(item =>
+							item.id === id ? { ...item, userFavorite: true } : item
+						)
+					}))
+
 					return {
 						...oldData,
-						pages: [
-							{
-								...oldData.pages[0],
-								benefits: oldData.pages[0].benefits.map(item =>
-									item.id === id ? { ...item, userFavorite: true } : item
-								)
-							}
-						]
+						pages: updatedPages
 					}
 				}
 			)

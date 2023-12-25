@@ -17,10 +17,12 @@ import useDeleteBenefit from './hooks/useDeleteBenefit'
 import useColumns from './utils/columns'
 
 function Benefits() {
-	const { data, isSuccess, isLoading, isError } = useGetBenefits()
+	const { data: benefits, isSuccess, isLoading, isError } = useGetBenefits()
 	const { open, handleOpenModal, handleCloseModal } = useModal()
 	const { mutate: deleteBenefit } = useDeleteBenefit()
 	const [selectedBenefit, setSelectedBenefit] = useState<number | undefined>()
+
+	console.log('benefits:', benefits)
 
 	const navigate = useNavigate()
 
@@ -63,7 +65,7 @@ function Benefits() {
 				/>
 
 				<CustomButton onClick={handleAdd} text='Agregar Beneficio' />
-				<BasicTable columns={columns} data={data.benefits} />
+				<BasicTable columns={columns} data={benefits} />
 			</Box>
 		)
 	}

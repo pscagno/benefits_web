@@ -1,7 +1,7 @@
 package com.santre.macro.benefits.domain.models.responses;
 
 import lombok.Data;
-
+import java.util.List;
 import java.util.Date;
 
 @Data
@@ -21,13 +21,13 @@ public class BenefitDetailRest {
     private Date dateExpiration;
     private boolean userFavorite;
     private String link;
-    private String region;
     private int Qualification;
     private byte[] imageHeader;
     private byte[] imageHeaderMobile;
     private byte[] imageDetails1;
     private byte[] imageDetails2;
     private byte[] imageList;
+    private List<RegionRest> regions;
     private double averageQualification;
 
     public Long getId() {
@@ -174,14 +174,6 @@ public class BenefitDetailRest {
         this.link = link;
     }
 
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
     public String getCategoryColor() {
         return categoryColor;
     }
@@ -214,4 +206,11 @@ public class BenefitDetailRest {
         this.averageQualification = averageQualification;
     }
 
+    public List<RegionRest> getRegions() {
+        return regions;
+    }
+
+    public void setRegions(List<RegionRest> regions) {
+        this.regions = regions;
+    }
 }

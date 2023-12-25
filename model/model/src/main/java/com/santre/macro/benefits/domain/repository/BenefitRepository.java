@@ -14,9 +14,9 @@ import java.util.List;
 public interface BenefitRepository extends CrudRepository<BenefitEntity, Long>{
 
     @Query("SELECT b FROM BenefitEntity b " +
-            "Where b.title like %:keyword% " +
-            "or b.text like %:keyword% " +
-            "or b.description like %:keyword% "
+            "Where Upper(b.title) like %:keyword% " +
+            "or Upper(b.text) like %:keyword% " +
+            "or Upper(b.description) like %:keyword% "
     )
     Page<BenefitEntity> findBySomeFieldContaining(Pageable pageable, @Param("provinceId") String keyword);
 

@@ -4,46 +4,48 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Builder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Categories")
 public class CategoryEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Column(length=200, nullable = false)
+    @Column(length = 200, nullable = false)
     private String name;
 
     @Column(nullable = false)
     private int orderInMenu;
 
     @NotEmpty
-    @Column(length=200, nullable = false)
+    @Column(length = 200, nullable = false)
     private byte[] imageHeader;
 
     @NotEmpty
-    @Column(length=200, nullable = false)
+    @Column(length = 200, nullable = false)
     private byte[] imageHeaderMobile;
 
     @NotEmpty
-    @Column(length=200, nullable = false)
+    @Column(length = 200, nullable = false)
     private byte[] imageMenu;
 
-    @Column(length=50)
+    @Column(length = 50)
     private String color;
 
-    @OneToMany(cascade=CascadeType.ALL, orphanRemoval = true, mappedBy = "category")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category")
     private List<SubcategoryEntity> subcategories = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_categories", joinColumns = @JoinColumn(name = "user_entity_id"), inverseJoinColumns = @JoinColumn(name = "category_entity_id"))
-    private List<UserEntity> users = new ArrayList<>();
+    @ManyToMany(mappedBy = "categories")
+    private Set<UserEntity> users = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -110,11 +112,12 @@ public class CategoryEntity {
         this.subcategories = subcategories;
     }
 
-    public List<UserEntity> getUsers() {
+    @JsonIgnore
+    public Set<UserEntity> getUsers() {
         return users;
     }
 
-    public void setUsers(List<UserEntity> users) {
+    public void setUsers(Set<UserEntity> users) {
         this.users = users;
     }
 }

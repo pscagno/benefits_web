@@ -1,25 +1,18 @@
-// import type { ReactElement } from 'react';
-// import { lazy, Suspense } from 'react';
-// import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
-// import LoadingOrError from 'components/LoadingOrError';
-
-// import PersistentDrawerLeft from './components/Drawer';
-
 /* eslint-disable react/no-multi-comp */
-import type { ReactElement } from 'react'
-import { Suspense, lazy } from 'react'
+import type { ReactElement } from 'react';
+import { Suspense, lazy } from 'react';
 import {
 	Navigate,
 	Outlet,
 	RouterProvider,
 	createBrowserRouter
-} from 'react-router-dom'
+} from 'react-router-dom';
 
-import ErrorMessage from 'components/ErrorMessage'
-import { useAuth } from 'context/AuthContext'
-
-import PersistentDrawerLeft from './components/Drawer'
+import CustomSnackbar from 'components/CustomSnackbar';
+import PersistentDrawerLeft from 'components/Drawer';
+import ErrorMessage from 'components/ErrorMessage';
+import { useAuth } from 'context/AuthContext';
+import { useMultipleNotificationContext } from 'context/MultipleNotificationContext';
 
 const BenefitsPage = lazy(async () => import('pages/Benefits'))
 const AddBenefitPage = lazy(async () => import('pages/AddBenefit'))
@@ -32,6 +25,11 @@ const AddProvincePage = lazy(async () => import('pages/AddProvince'))
 const CitiesPage = lazy(async () => import('pages/Cities'))
 const AddCityPage = lazy(async () => import('pages/AddCity'))
 const LoginPage = lazy(async () => import('pages/Login'))
+const HomeCarouselPage = lazy(async () => import('pages/HomeCarousel'))
+const AddHomeCarouselPage = lazy(async () => import('pages/AddHomeCarousel'))
+const EditProvincePage = lazy(async () => import('pages/EditProvince'))
+const EditCityPage = lazy(async () => import('pages/EditCity'))
+const EditSubcategoryPage = lazy(async () => import('pages/EditSubcategory'))
 
 function PrivateLayout() {
 	return (
@@ -67,6 +65,11 @@ const privateRoutes = {
 		{ element: <AddProvincePage />, path: '/provinces/add' },
 		{ element: <CitiesPage />, path: '/cities' },
 		{ element: <AddCityPage />, path: '/cities/add' },
+		{ element: <HomeCarouselPage />, path: '/homecarousel' },
+		{ element: <AddHomeCarouselPage />, path: '/homecarousel/add' },
+		{ element: <EditProvincePage />, path: '/provinces/edit/:provinceId' },
+		{ element: <EditCityPage />, path: '/cities/edit/:cityId' },
+		{ element: <EditSubcategoryPage />, path: '/subcategories/edit/:subcategoryId' },
 		{ path: '*', element: <Navigate to='/benefits' replace /> }
 	]
 }
@@ -80,8 +83,22 @@ const routes = {
 }
 
 export default function App(): ReactElement {
+	const { notifications, removeNotification } = useMultipleNotificationContext();
 	const { isAuthenticated } = useAuth()
 	const router = createBrowserRouter([isAuthenticated ? privateRoutes : routes])
 
-	return <RouterProvider router={router} />
+	return (
+		<>
+      {notifications.map((notification, index) => (
+				<CustomSnackbar
+					index={index}
+					key={index}
+					notification={notification}
+					removeNotification={removeNotification}
+				/>
+      ))}
+
+			<RouterProvider router={router} />
+		</>
+	)
 }

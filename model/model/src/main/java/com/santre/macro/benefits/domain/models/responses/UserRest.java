@@ -3,11 +3,12 @@ import java.util.List;
 
 public class UserRest {
     private long id;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
     private String cityName;
     private Long cityId;
-    private List<String> categories;
+    private List<CategoryRest> categories;
 
     public long getId() {
         return id;
@@ -17,12 +18,20 @@ public class UserRest {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -49,11 +58,11 @@ public class UserRest {
         this.cityId = cityId;
     }
 
-    public List<String> getCategories() {
+    public List<CategoryRest> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<String> categories) {
+    public void setCategories(List<CategoryRest> categories) {
         this.categories = categories;
     }
 }

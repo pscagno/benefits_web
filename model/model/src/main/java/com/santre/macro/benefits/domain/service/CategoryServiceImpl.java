@@ -1,5 +1,7 @@
 package com.santre.macro.benefits.domain.service;
 
+import com.santre.macro.benefits.domain.entity.SubcategoryEntity;
+import com.santre.macro.benefits.domain.entity.UserEntity;
 import com.santre.macro.benefits.domain.repository.CategoryRepository;
 import com.santre.macro.benefits.domain.entity.CategoryEntity;
 import com.santre.macro.benefits.domain.repository.UserRepository;
@@ -32,6 +34,10 @@ public class CategoryServiceImpl implements  CategoryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Optional<CategoryEntity> getByName(String name){ return repository.findByName(name); }
+
+    @Override
     @Transactional
     public CategoryEntity save(CategoryEntity category) {
         return repository.save(category);
@@ -41,8 +47,10 @@ public class CategoryServiceImpl implements  CategoryService {
     @Transactional
     public void delete(Long id) {
         CategoryEntity category = repository.findById(id).orElseThrow();
-        category.getUsers().removeAll(category.getUsers());
-        //repository.save(category);
+        for (UserEntity user:category.getUsers()) {
+            user.getCategories().remove(category);
+            userRepository.save(user);
+        }
         repository.delete(category);
     }
 

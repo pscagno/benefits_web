@@ -1,7 +1,7 @@
 import { memo } from 'react'
 
-import BreadCrumb from 'components/BreadCrumb/BreadCrumb'
 import StarRaiting from 'assets/images/star-filled.png'
+import BreadCrumb from 'components/BreadCrumb/BreadCrumb'
 
 import type { BenefitDescription } from '../../../types'
 
@@ -24,7 +24,7 @@ function BenefitDescriptionDesktop({
 					<div className='flex flex-row items-center'>
 						<img alt='starRaiting' src={StarRaiting} />
 						<p className='ml-[3px] font-TitilliumWeb text-[15px] font-semibold text-black'>
-							{averageQualification.toFixed(1)}
+							{averageQualification?.toFixed(1)}
 						</p>
 					</div>
 				</div>

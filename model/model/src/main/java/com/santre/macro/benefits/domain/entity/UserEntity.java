@@ -8,9 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Builder
@@ -45,9 +43,13 @@ public class UserEntity implements UserDetails {
   @JoinColumn(name="idCity", nullable = true)
   private CityEntity city;
 
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "user_categories", joinColumns = @JoinColumn(name = "user_entity_id"), inverseJoinColumns = @JoinColumn(name = "category_entity_id"))
-  private List<CategoryEntity> categories = new ArrayList<>();
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinTable(
+          name = "user_category",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "category_id")
+  )
+  private Set<CategoryEntity> categories = new HashSet<>();;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -153,11 +155,11 @@ public class UserEntity implements UserDetails {
     this.city = city;
   }
 
-  public List<CategoryEntity> getCategories() {
+  public Set<CategoryEntity> getCategories() {
     return categories;
   }
 
-  public void setCategories(List<CategoryEntity> categories) {
+  public void setCategories(Set<CategoryEntity> categories) {
     this.categories = categories;
   }
 }

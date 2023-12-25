@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import {
 	FormProvider,
 	useForm,
@@ -19,23 +19,21 @@ import { ProfileSchema } from './schema'
 import type { FormValues, ProfileFormProps } from './types'
 
 const onSubmit: SubmitHandler<FieldValues> = data => {
-	console.log('Submittttt')
 	console.log(data)
 }
-
 function filterItemsByProvince(data: City[], targetProvinceId: number) {
-	const filteredItems: { value: number; label: string }[] = []
+  const filteredItems: { value: number; label: string }[] = [];
 
-	for (const item of data) {
-		const { id, name, province } = item
-		const { id: provinceId } = province
+  for (const item of data) {
+    const { id, name, province } = item;
+    const { id: provinceId } = province;
 
-		if (provinceId === targetProvinceId) {
-			filteredItems.push({ value: id, label: name })
-		}
-	}
+    if (provinceId === targetProvinceId) {
+      filteredItems.push({ value: id, label: name });
+    }
+  }
 
-	return filteredItems
+  return filteredItems;
 }
 
 function ProfileForm({
@@ -47,32 +45,50 @@ function ProfileForm({
 	const formMethods = useForm<FormValues>({
 		mode: 'onBlur',
 		resolver: zodResolver(ProfileSchema),
-		defaultValues: userProfile
-	})
+		defaultValues: {
+			provinceId: 1, // Establece el valor predeterminado de la provincia si es necesario
+			...userProfile
+		}
+	})	
 
-	const { handleSubmit, watch } = formMethods
-	const watchProvinceId = watch('provinceId')
+	const { handleSubmit, watch, setValue } = formMethods
+  const watchProvinceId = watch('provinceId');
 
-	const provincesOptions: { value: number; label: string }[] = useMemo(
-		() =>
-			provinces.map(province => ({
-				value: province.id,
-				label: province.name
-			})),
-		[provinces]
-	)
+  useEffect(() => {
+    setValue('cityId', null);
+  }, [watchProvinceId, setValue]);
 
-	const citiesOptions: { value: number; label: string }[] = useMemo(
-		() => filterItemsByProvince(cities, Number(watchProvinceId)),
-		[cities, watchProvinceId]
-	)
+  const provincesOptions: { value: number; label: string }[] = useMemo(
+    () =>
+      provinces
+        ? provinces.map((province) => ({
+            value: province.id,
+            label: province.name,
+          }))
+        : [],
+    [provinces]
+  );
+
+  const citiesOptions: { value: number; label: string }[] = useMemo(
+    () =>
+      cities ? filterItemsByProvince(cities, Number(watchProvinceId)) : [],
+    [cities, watchProvinceId]
+  );
+
+	useEffect(() => {
+    if (watchProvinceId !== undefined) {
+      setValue('cityId', cities ? filterItemsByProvince(cities, Number(watchProvinceId))[0]?.value : null);
+    }
+  }, [watchProvinceId, cities, setValue]);
 
 	const categoriesOptions: { value: number; label: string }[] = useMemo(
 		() =>
-			categories.map(category => ({
-				value: category.id,
-				label: category.name
-			})),
+			categories
+				? categories.map(category => ({
+						value: category.id,
+						label: category.name
+				  }))
+				: [],
 		[categories]
 	)
 
@@ -93,8 +109,12 @@ function ProfileForm({
 								Mi región
 							</h1>
 							<div className='flex flex-row justify-center gap-3 sm:flex-col'>
-								<Select name='idCity' options={citiesOptions} />
-								<Select name='provinceId' options={provincesOptions} />
+							<Select name='provinceId' options={provincesOptions} />
+							<Select
+								disabled={!watchProvinceId || citiesOptions.length === 0}
+								name='cityId'
+								options={citiesOptions}
+							/>  
 							</div>
 						</section>
 						<section className='mt-10 h-full w-full bg-[#F0F0F0]'>

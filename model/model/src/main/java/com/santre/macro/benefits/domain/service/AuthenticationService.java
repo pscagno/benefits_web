@@ -15,7 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 @Service
 @RequiredArgsConstructor
@@ -26,16 +26,16 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final CategoryService categoryService;
 
     public JwtAuthenticationResponse signup(SignUpRequest request) {
         var city = new CityEntity();
         city.setId(request.getIdCity());
 
-        var categories = new ArrayList<CategoryEntity>();
+        var categories = new HashSet<CategoryEntity>();
         for (var catId: request.getCategories()) {
-            var category = new CategoryEntity();
-            category.setId(catId);
-            categories.add(category);
+            var category = categoryService.getById(catId);
+            category.ifPresent(categories::add);
         }
 
         var user = UserEntity

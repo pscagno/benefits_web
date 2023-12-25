@@ -4,9 +4,9 @@ import { useState } from 'react'
 
 function CategoryForm({ onSubmit }) {
 	const [categoryData, setCategoryData] = useState({
-		name: 'Categoría desde Backoffice',
-		color: '#0b3948',
-		orderInMenu: '2',
+		name: '',
+		color: '',
+		orderInMenu: '',
 		imageHeader: '',
 		imageHeaderMobile: '',
 		imageMenu: ''

@@ -24,15 +24,15 @@ interface Props {
 
 function BenefitForm({ onSubmit, subCategories }: Props) {
 	const [benefit, setBenefit] = useState({
-		title: 'Beneficio 1 desde Backoffice',
-		description: 'Beneficio 1 desde Backoffice',
-		text: 'Beneficio 1 desde Backoffice',
+		title: '',
+		description: '',
+		text: '',
 		inHome: false,
 		subcategory: {
-			id: 1
+			id: 0
 		},
-		userCreation: 'karen',
-		link: 'link.com',
+		userCreation: '',
+		link: '',
 		imageHeader: '',
 		imageHeaderMobile: '',
 		imageLists: '',

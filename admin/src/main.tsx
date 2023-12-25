@@ -3,8 +3,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import App from 'App'
-
-import { AuthProvider } from './context/AuthContext'
+import { AuthProvider } from 'context/AuthContext'
+import { MultipleNotificationProvider } from 'context/MultipleNotificationContext'
 import './index.css'
 
 const MAX_RETRIES = 1
@@ -23,9 +23,11 @@ if (container) {
 	root.render(
 		<StrictMode>
 			<QueryClientProvider client={queryClient}>
-				<AuthProvider>
-					<App />
-				</AuthProvider>	
+				<MultipleNotificationProvider>
+					<AuthProvider>
+						<App />
+					</AuthProvider>	
+				</MultipleNotificationProvider>
 			</QueryClientProvider>
 		</StrictMode>
 	)

@@ -29,7 +29,7 @@ function CheckboxInput({ gridCols, title, preferences }: Props) {
 								type='checkbox'
 								{...register(`preferences.${preference.id}`)}
 							/>
-							{preference.name}
+							{preference.label}
 							<span className='geekmark flex' />
 						</label>
 					</div>

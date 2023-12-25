@@ -7,15 +7,14 @@ import BANNER_CATEGORIES from '../../assets/images/banner-categories.png'
 import Banner from '../../components/Banner'
 // import ErrorMessage from '../../components/ErrorMessage'
 // import Loading from '../../components/Loading'
-import type { CategoryFormData } from './types'
 import CategoryForm from './components/CategoryForm'
-import { useCreateCategory } from './hooks/useCreateCategory'
+import useCreateCategory from './hooks/useCreateCategory'
+import type { CategoryFormData } from './types'
 
 function AddCategory() {
 	const { mutate: createCategory } = useCreateCategory()
 
 	const handleCreateCategory = (categoryData: CategoryFormData) => {
-		console.log('Creating category with data:', categoryData)
 		createCategory(categoryData)
 	}
 

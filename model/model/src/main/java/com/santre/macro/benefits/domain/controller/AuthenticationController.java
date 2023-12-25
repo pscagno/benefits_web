@@ -7,6 +7,7 @@ import com.santre.macro.benefits.domain.service.AuthenticationService;
 import com.santre.macro.benefits.domain.service.JwtService;
 import com.santre.macro.benefits.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.bouncycastle.pqc.math.ntru.HPSPolynomial;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,8 +45,25 @@ public class AuthenticationController {
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<UserEntity> listAll(){
-        return usersService.getAll();
+    public ResponseEntity<?> listAll(){
+        var users = new ArrayList<UserRest>();
+        for (var user : usersService.getAll()){
+            UserRest rest = new UserRest();
+            rest.setFirstName(user.getFirstName());
+            rest.setLastName(user.getLastName());
+            rest.setCityName(user.getCity().getName());
+            rest.setCityId(user.getCity().getId());
+            rest.setEmail(user.getEmail());
+            rest.setCategories(new ArrayList<>());
+            for (var category: user.getCategories()){
+                var categoryRest = new CategoryRest();
+                categoryRest.setName(category.getName());
+                categoryRest.setId(category.getId());
+                rest.getCategories().add(categoryRest);
+            }
+            users.add(rest);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
     @GetMapping("/user")
@@ -55,12 +73,16 @@ public class AuthenticationController {
         if (userOpt.isPresent()){
             var userRest = new UserRest();
             BeanUtils.copyProperties(userOpt.get(), userRest);
-            userRest.setName(userOpt.get().getEmail());
+            userRest.setFirstName(userOpt.get().getFirstName());
+            userRest.setLastName(userOpt.get().getFirstName());
             userRest.setCityId(userOpt.get().getCity().getId());
             userRest.setCityName(userOpt.get().getCity().getName());
-            List<String> categories = new ArrayList<String>();
+            List<CategoryRest> categories = new ArrayList<>();
             for (var cat: userOpt.get().getCategories()){
-                categories.add(cat.getName());
+                var categoryRest = new CategoryRest();
+                categoryRest.setId(cat.getId());
+                categoryRest.setName(cat.getName());
+                categories.add(categoryRest);
             }
             userRest.setCategories(categories);
             return ResponseEntity

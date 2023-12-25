@@ -1,5 +1,6 @@
 package com.santre.macro.benefits.domain.service;
 
+import com.santre.macro.benefits.domain.entity.CategoryEntity;
 import com.santre.macro.benefits.domain.entity.ProvinceEntity;
 import com.santre.macro.benefits.domain.repository.ProvinceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class ProvinceServiceImpl implements  ProvinceService {
     @Transactional(readOnly = true)
     public Optional<ProvinceEntity> getById(Long id) {
         return repository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<ProvinceEntity> getByName(String name){
+        return repository.findByName(name);
     }
 
     @Override

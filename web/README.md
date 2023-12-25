@@ -8,7 +8,6 @@ Website showcasing the offerings of Banco Macro.
 - [Tailwind CSS v3](https://tailwindcss.com) and a [Prettier plugin](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) that automatically sorts classes.
 - Use [ESLint](https://eslint.org), [stylelint](https://stylelint.io) and [Prettier](https://prettier.io) on VSCode and before you commit with [Husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged).
 - Unit and integration tests with [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/).
-- e2e tests with [Cypress](https://www.cypress.io).
 - GitHub Actions for automatic [dependency updates](https://renovatebot.com/), [CodeQL Analysis](https://securitylab.github.com/tools/codeql), running tests and code coverage with [Codecov](https://about.codecov.io/).
 - Deploy to [vercel.com](https://vercel.com/) with pre-configured [SPA fallback](https://vercel.com/docs/configuration#routes/advanced/spa-fallback).
 
@@ -39,8 +38,6 @@ pnpm dev
 - `pnpm preview` - locally preview the production build.
 - `pnpm test` - run unit and integration tests related to changed files based on git.
 - `pnpm test:ci` - run all unit and integration tests in CI mode.
-- `pnpm test:e2e` - run all e2e tests with the Cypress Test Runner.
-- `pnpm test:e2e:headless` - run all e2e tests headlessly.
 - `pnpm format` - format all files with Prettier.
 - `pnpm lint` - runs TypeScript, ESLint and Stylelint.
 - `pnpm validate` - runs `lint`, `test:ci` and `test:e2e:ci`.

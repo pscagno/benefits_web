@@ -8,6 +8,8 @@ import Loading from 'components/Loading'
 import BasicTable from 'components/Table'
 import { useGetCategories } from 'hooks/useGetCategories'
 import useModal from 'hooks/useModal'
+import useSearch from 'hooks/useSearch'
+import type { DataItem } from 'hooks/useSearch/types'
 import viewStyles from 'styles/viewStyles'
 
 import BANNER_BENEFITS from '../../assets/images/banner-benefits.png'
@@ -42,6 +44,14 @@ function Categories() {
 
 	const columns = useColumns({ handleDelete, handleEdit })
 
+	const arrayToFilter: (keyof DataItem)[] = ['name']
+
+	const { filteredDataHook, SearchInput } = useSearch(
+		data,
+		arrayToFilter,
+		'Buscar por Nombre'
+	)
+
 	if (isLoading) return <Loading />
 
 	if (isError)
@@ -63,7 +73,8 @@ function Categories() {
 				/>
 
 				<CustomButton onClick={handleAdd} text='Agregar categoría' />
-				<BasicTable columns={columns} data={data} />
+				{SearchInput}
+				<BasicTable columns={columns} data={filteredDataHook} />
 			</Box>
 		)
 	}

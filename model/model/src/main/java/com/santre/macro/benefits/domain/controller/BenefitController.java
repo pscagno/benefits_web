@@ -2,9 +2,7 @@ package com.santre.macro.benefits.domain.controller;
 
 
 import com.santre.macro.benefits.domain.entity.*;
-import com.santre.macro.benefits.domain.models.responses.BenefitDetailRest;
-import com.santre.macro.benefits.domain.models.responses.BenefitRest;
-import com.santre.macro.benefits.domain.models.responses.ListBenefitsRest;
+import com.santre.macro.benefits.domain.models.responses.*;
 import com.santre.macro.benefits.domain.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +95,39 @@ public class BenefitController {
             response.setNextPage(-1);
             return response;
         }
+    }
+
+    @GetMapping("reportAverage")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<?> listReport(@RequestHeader (name="Authorization") String token){
+        Optional<UserEntity> userOpt = getTokenUser(token);
+        if (userOpt.isPresent()) {
+            var benefits = service.getAll();
+            List<BenefitReportRest> benefitsReport = new ArrayList<>();
+            for (var benefit: benefits){
+                var benefitReportRest = getBenefitReportRest(benefit);
+                benefitsReport.add(benefitReportRest);
+            }
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(benefitsReport);
+        }else{
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body("Usuario inválido");
+        }
+    }
+
+    private static BenefitReportRest getBenefitReportRest(BenefitEntity benefit) {
+        var benefitReportRest = new BenefitReportRest();
+        benefitReportRest.setId(benefit.getId());
+        benefitReportRest.setTitle(benefit.getTitle());
+        benefitReportRest.setDescription(benefit.getDescription());
+        benefitReportRest.setCategoryName(benefit.getSubcategory().getCategory().getName());
+        benefitReportRest.setSubcategoryName(benefit.getSubcategory().getName());
+        benefitReportRest.setAverageQualification(benefit.getAverageQualification());
+        benefitReportRest.setTotalQualifications(benefit.getQualifications().size());
+        return benefitReportRest;
     }
 
     @GetMapping("search")
@@ -214,7 +245,11 @@ public class BenefitController {
                 var benefitRest = new BenefitDetailRest();
                 var benefit = benefitOptional.get();
                 BeanUtils.copyProperties(benefit, benefitRest);
-                benefitRest.setRegion(benefit.getRegionsDescription());
+                benefitRest.setRegions(new ArrayList<>());
+                for (var region: benefit.getRegions()) {
+                    var regionRest = getRegionRest(region);
+                    benefitRest.getRegions().add(regionRest);
+                }
                 benefitRest.setCategoryId(benefit.getSubcategory().getCategory().getId());
                 benefitRest.setCategoryName(benefit.getSubcategory().getCategory().getName());
                 benefitRest.setCategoryColor(benefit.getSubcategory().getCategory().getColor());
@@ -229,6 +264,20 @@ public class BenefitController {
             }
         }
         return ResponseEntity.notFound().build();
+    }
+
+    private static RegionRest getRegionRest(BenefitRegionEntity region) {
+        var regionRest = new RegionRest();
+        regionRest.setId(region.getId());
+        if (region.getCity() != null) {
+            regionRest.setCity(region.getCity().getName());
+            regionRest.setIDCity(region.getCity().getId());
+        }
+        if (region.getProvince() != null) {
+            regionRest.setProvince(region.getProvince().getName());
+            regionRest.setIDProvince(region.getProvince().getId());
+        }
+        return regionRest;
     }
 
     @DeleteMapping("/{id}")
@@ -246,6 +295,7 @@ public class BenefitController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(
+            @RequestHeader (name="Authorization") String token,
             @RequestPart("benefit") BenefitEntity benefit,
             @RequestPart("imageHeader") MultipartFile imageHeader,
             @RequestPart("imageHeaderMobile") MultipartFile imageHeaderMobile,
@@ -257,6 +307,10 @@ public class BenefitController {
             var optionalSubcategory = subCategoryService.getById(benefit.getSubcategory().getId());
             if (optionalSubcategory.isEmpty()) {
                 throw new Exception("Bad request: Subcategory id " + benefit.getSubcategory().getId() + " doesn't exist.");
+            }
+            Optional<UserEntity> userOpt = getTokenUser(token);
+            if (userOpt.isPresent()) {
+                benefit.setUserCreation(userOpt.get().getFirstName() + " " + userOpt.get().getLastName());
             }
             benefit.setImageHeader(imageHeader.getBytes());
             benefit.setImageHeaderMobile(imageHeaderMobile.getBytes());

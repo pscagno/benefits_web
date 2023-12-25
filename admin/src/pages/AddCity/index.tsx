@@ -33,8 +33,8 @@ function AddCity() {
 			<Box sx={viewStyles.container}>
 				<Banner
 					image={BANNER_CITIES}
-					subtitle='Administra las ciudades para tus beneficios desde aquí'
-					title='Ciudades'
+					subtitle='Administra las regiones para tus beneficios desde aquí'
+					title='Regiones'
 				/>
 				<CityForm onSubmit={handleCreateCity} provinces={provinces} />
 			</Box>

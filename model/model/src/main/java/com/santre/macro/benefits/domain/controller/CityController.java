@@ -68,6 +68,10 @@ public class CityController {
         if (result.hasErrors()){
             return validate(result);
         }
+        var cityDb = service.getByName(city.getName());
+        if (cityDb.isPresent()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La ciudad/región ya existe");
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(city));
     }
 

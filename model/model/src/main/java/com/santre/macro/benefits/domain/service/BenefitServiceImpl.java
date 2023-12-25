@@ -30,9 +30,15 @@ public class BenefitServiceImpl implements  BenefitService {
 
     @Override
     @Transactional(readOnly = true)
+    public Iterable<BenefitEntity> getAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Page<BenefitEntity> search(int page, int size, String keyword){
         PageRequest pageable = PageRequest.of(page, size);
-        return repository.findBySomeFieldContaining(pageable, keyword);
+        return repository.findBySomeFieldContaining(pageable, keyword.toUpperCase());
     }
 
     @Override

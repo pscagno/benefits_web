@@ -12,6 +12,10 @@ public class ImageHomeCarrouselEntity {
     private Long id;
 
     @NotEmpty
+    @Column(length=80, nullable = false)
+    private String name;
+
+    @NotEmpty
     @Column(length=200, nullable = false)
     private byte[] imageHeader;
 
@@ -41,5 +45,13 @@ public class ImageHomeCarrouselEntity {
 
     public void setImageHeaderMobile(byte[] imageHeaderMobile) {
         this.imageHeaderMobile = imageHeaderMobile;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

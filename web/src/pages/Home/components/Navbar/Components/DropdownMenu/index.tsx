@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react'
 
 import useGetAllFilter from 'components/Filters/hooks/useGetAllFilter'
-import Loading from 'components/Loading/Loading'
 
 import Column from './Column'
 import dividerNumber from './constants'
@@ -27,14 +26,6 @@ function DropdownMenu({ isOpen, setOpenMenu }: Props) {
 		() => (filtersResponse ? filtersResponse.slice(columnCount) : undefined),
 		[columnCount, filtersResponse]
 	)
-
-	if (filterResponseIsLoading) {
-		return (
-			<div className='flex justify-center'>
-				<Loading />
-			</div>
-		)
-	}
 
 	return (
 		<div

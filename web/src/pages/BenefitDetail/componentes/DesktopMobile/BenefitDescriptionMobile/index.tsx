@@ -20,7 +20,7 @@ function BenefitDescriptionMobile({
 				<div className='flex flex-row items-center'>
 					<img alt='starRaiting' src={StarRaiting} />
 					<p className='ml-[3px] font-TitilliumWeb text-xs font-semibold text-black'>
-						{averageQualification.toFixed(1)}
+						{averageQualification?.toFixed(1)}
 					</p>
 				</div>
 			</div>

@@ -21,7 +21,6 @@ public class BenefitRest {
     private int Qualification;
     private String link;
     private boolean userFavorite;
-    private String region;
     private byte[] imageList;
 
     private double averageQualification;
@@ -129,14 +128,6 @@ public class BenefitRest {
         this.userFavorite = userFavorite;
     }
 
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
     public String getCategoryName() {
         return categoryName;
     }
@@ -160,4 +151,5 @@ public class BenefitRest {
     public void setAverageQualification(double averageQualification) {
         this.averageQualification = averageQualification;
     }
+
 }

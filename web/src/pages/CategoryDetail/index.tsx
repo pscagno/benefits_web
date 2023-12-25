@@ -46,19 +46,12 @@ function CategoryDetail() {
 			</div>
 			<div className='container-benefitName relative mb-8 w-full'>
 				<div
-					className='h-ful uppercase; flex w-full justify-center font-TitilliumWeb text-[22px] font-semibold leading-[3.625rem] text-white sm:text-[20px]'
+					className='mb-[60px] flex h-full w-full justify-center font-TitilliumWeb text-[22px] font-semibold uppercase leading-[3.625rem] text-white sm:text-[20px]'
 					style={{
 						backgroundColor: color
 					}}
 				>
 					{subcategoryName ? `${name} - ${subcategoryName}` : name}
-				</div>
-			</div>
-			<div className='container-benefitTextName w-full'>
-				<div className='h-ful flex w-full justify-center font-TitilliumWeb text-[22px] font-semibold leading-[3.625rem] text-primary-description'>
-					<p className='px-4 text-center'>
-						Encuentra un beneficio de {name.toLowerCase()}
-					</p>
 				</div>
 			</div>
 			<div className='mt-[-60px]'>
@@ -72,7 +65,9 @@ function CategoryDetail() {
 					}`}
 					headerSize='base'
 					id={isSubcategory ? numberSubcategoryId : numberCategoryId}
-					keyQueryName={subcategoryName ? `${name} - ${subcategoryName}` : name}
+					keyQueryName={
+						subcategoryName ? numberSubcategoryId : numberCategoryId
+					}
 				/>
 			</div>
 			<hr />

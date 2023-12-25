@@ -32,7 +32,6 @@ public class SubcategoryController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> details(@PathVariable Long id){
         Optional<SubcategoryEntity> subcategoryOptional = service.getById(id);
         if (subcategoryOptional.isPresent()) {
@@ -66,6 +65,10 @@ public class SubcategoryController {
     public ResponseEntity<?> create(@Valid @RequestBody SubcategoryEntity subcategory, BindingResult result){
         if (result.hasErrors()){
             return validate(result);
+        }
+        var subcategoryDb = service.getByName(subcategory.getName());
+        if (subcategoryDb.isPresent()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La subcategoria ya existe");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(subcategory));
     }

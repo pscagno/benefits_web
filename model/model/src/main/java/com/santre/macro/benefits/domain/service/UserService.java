@@ -3,6 +3,7 @@ package com.santre.macro.benefits.domain.service;
 
 import com.santre.macro.benefits.domain.entity.UserEntity;
 import com.santre.macro.benefits.domain.repository.UserRepository;
+import com.santre.macro.benefits.domain.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +20,8 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final CategoryRepository categoryRepository;
 
     public List<UserEntity> getAll(){
         return  userRepository.findAll();
@@ -55,6 +58,11 @@ public class UserService {
 
     @Transactional
     public void delete(Long id) {
+        var user = userRepository.getReferenceById(id);
+        for (var category: user.getCategories()){
+            category.getUsers().remove(user);
+            categoryRepository.save(category);
+        }
         userRepository.deleteById(id);
     }
 

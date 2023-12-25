@@ -3,12 +3,13 @@ import { memo, useCallback } from 'react'
 import EmailIcon from 'assets/EmailIcon'
 import WhatsappIcon from 'assets/WhatsappIcon'
 import Modal from 'components/Modal'
+import config from 'config'
 
 import share from '../../../../assets/vector/share.png'
 import type { Props } from './types'
 
 function ModalShare({ id, transparentBgColor, text }: Props) {
-	const benefitLinkShare = `http://localhost:5173/benefit/${id}`
+	const benefitLinkShare = `${config.portalURL}/benefit/${id}`
 
 	const openEmailClient = useCallback(() => {
 		const subject = encodeURIComponent('Increíble beneficio del Banco Macro')

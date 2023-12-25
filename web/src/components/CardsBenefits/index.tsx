@@ -1,5 +1,6 @@
-import { useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
+import { useCallback, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import useMediaQuery from 'Utils/mediaQuery'
 import BenefitCardDesktop from 'components/BenefitCard/BenefitCardDesktop'
@@ -9,6 +10,7 @@ import BenefitCardSkeleton from 'components/BenefitCardSkeleton'
 import Button from 'components/Button'
 import useGetBenefits from 'components/CardsBenefits/hooks/useGetBenefits'
 import Loading from 'components/Loading/Loading'
+import InputSearch from 'components/SearchInput'
 import type { Props } from 'types/cardBenefits'
 
 function BenefitsCards({
@@ -19,14 +21,22 @@ function BenefitsCards({
 	keyQueryName,
 	id
 }: Props) {
+	const [initSearch, setInitSearch] = useState('')
+	const queryClient = useQueryClient()
 	// TODO zeque tenes que revisar esto
+	const handleSearch = search => {
+		setInitSearch(search.toLowerCase())
+		queryClient.removeQueries([keyQueryName])
+	}
+	const location = useLocation()
+
 	const {
 		benefitsIsLoading,
 		benefitsResponse,
 		fetchNextPage,
 		hasNextPage,
 		isFetchingNextPage
-	} = useGetBenefits(getBenefits, keyQueryName, id)
+	} = useGetBenefits(getBenefits, keyQueryName, id, initSearch)
 	const navigate = useNavigate()
 	const mobile = useMediaQuery({ query: '(max-width: 768px)' })
 
@@ -62,13 +72,22 @@ function BenefitsCards({
 	return (
 		<section className={`h-auto w-full sm:pt-20 md:pt-0 ${bg}`}>
 			{headerSize === 'base' ? (
-				<h2 className='py-[66px] text-center font-TitilliumWeb text-[32px] font-[600] leading-normal text-primary-description sm:hidden md:block'>
+				<h2 className='py-[33px] text-center font-TitilliumWeb text-[32px] font-[600] leading-normal text-primary-description sm:hidden md:block'>
 					{header}
 				</h2>
 			) : (
 				<h1 className="font-['Titillium Web'] py-[50px] text-center text-[42px] font-[600] leading-normal text-primary-description">
 					{header}
 				</h1>
+			)}
+			{location.pathname === '/' && (
+				<div className='flex flex-col items-center pb-[48px]'>
+					<InputSearch
+						handleSearch={handleSearch}
+						name='inputSearch'
+						placeholder='BUSCAR'
+					/>
+				</div>
 			)}
 			<div className='grid place-content-center'>
 				{benefitsResponse?.length === 0 && (

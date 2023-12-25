@@ -20,9 +20,9 @@ interface Props {
 
 function CityForm({ onSubmit, provinces }: Props) {
 	const [city, setCity] = useState({
-		name: 'Ciudad desde Backoffice',
+		name: '',
 		province: {
-			id: 1
+			id: 0
 		}
 	})
 
@@ -68,7 +68,7 @@ function CityForm({ onSubmit, provinces }: Props) {
 				}}
 			>
 				<TextField
-					label='Ciudad'
+					label='Región'
 					margin='normal'
 					name='name'
 					onChange={handleChange}
@@ -95,7 +95,7 @@ function CityForm({ onSubmit, provinces }: Props) {
 					type='submit'
 					variant='contained'
 				>
-					Crear Ciudad
+					Crear Región
 				</Button>
 			</Box>
 		</Box>

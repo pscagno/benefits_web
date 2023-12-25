@@ -92,7 +92,7 @@ const menuItems = [
 	},
 	{
 		id: 6,
-		text: 'Ciudades',
+		text: 'Regiones',
 		icon: <LocationCityIcon />,
 		path: '/cities'
 	},
@@ -100,8 +100,7 @@ const menuItems = [
 		id: 7,
 		text: 'Configuración de la home',
 		icon: <HomeIcon />,
-		path: '/home',
-		disabled: true
+		path: '/homecarousel'
 	},
 	{
 		id: 8,

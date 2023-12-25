@@ -21,6 +21,7 @@ FROM openjdk:17-jdk-alpine
 
 WORKDIR /app
 
+COPY ./model/model/src/main/resources/static/images/ ./src/main/resources/static/images/
 COPY --from=builder /app/model-benefits/target/model-0.0.1-SNAPSHOT.jar .
 
 EXPOSE 8001

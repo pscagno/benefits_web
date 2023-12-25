@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 function ProvinceForm({ onSubmit }) {
 	const [provinceData, setProvinceData] = useState({
-		name: 'Provincia desde Backoffice'
+		name: ''
 	})
 
 	const handleChange = event => {

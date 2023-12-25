@@ -5,6 +5,7 @@ import getCardsFavorites from 'api/getBenefitsFavorites'
 import getCards from 'api/getCards'
 import BannerImage from 'components/BannerImage'
 import BenefitsCards from 'components/CardsBenefits'
+import Loading from 'components/Loading/Loading'
 import { useGetCategories } from 'hooks/useGetCategories'
 import { useGetCities } from 'hooks/useGetCities/useGetCities'
 import { useGetProvinces } from 'hooks/useGetProvinces/useGetProvinces'
@@ -13,7 +14,7 @@ import { useGetUserProfile } from 'hooks/useUserProfile'
 import ProfileForm from './components/ProfileForm'
 
 function Profile() {
-	const { data, isSuccess: dataSuccess } = useQuery(['benefitsCards'], getCards)
+	const { data, isSuccess: dataSuccess, isLoading: dataIsLoading } = useQuery(['benefitsCards'], getCards)
 	const { data: dataBanners } = useQuery(['getBannersImages'], getBannerImages) // TODO: Esta imagen la tenemos de forma local, no de la API
 
 	const {
@@ -48,9 +49,17 @@ function Profile() {
 		citiesLoading ||
 		provincesLoading ||
 		userProfileLoading ||
-		categoriesLoading
+		categoriesLoading ||
+		dataIsLoading
 	) {
-		return <div>Loading...</div>
+		return (
+			<div
+				className='flex h-screen items-center justify-center'
+				style={{ flexDirection: 'column' }}
+			>
+				<Loading />
+			</div>
+		)
 	}
 
 	if (citiesError || provincesError || userProfileError || categoriesError) {

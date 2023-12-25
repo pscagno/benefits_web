@@ -28,6 +28,10 @@ public class SubcategoryServiceImpl implements  SubcategoryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Optional<SubcategoryEntity> getByName(String name){ return repository.findByName(name); }
+
+    @Override
     @Transactional
     public SubcategoryEntity save(SubcategoryEntity subcategory) {
         return repository.save(subcategory);

@@ -57,6 +57,11 @@ public class ProvinceController {
         if (result.hasErrors()){
             return validate(result);
         }
+        var provinceDb = service.getByName(province.getName());
+        if (provinceDb.isPresent()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La provincia ya existe");
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(province));
     }
 
