@@ -17,8 +17,8 @@ services:
     networks:
       - macro
     environment:
-      SERVER_NAME: ${SERVER_NAME:-localhost} # Example: proveedores.lomanegra.com
-      WEB_SERVER_NAME: ${WEB_SERVER_NAME:-localhost} # Example: www.proveedores.lomanegra.com
+      SERVER_NAME: ${SERVER_NAME:-localhost}
+      WEB_SERVER_NAME: ${WEB_SERVER_NAME:-localhost}
     command: /bin/bash -c "envsubst '$$SERVER_NAME,$$WEB_SERVER_NAME' < /etc/nginx/conf.d/proxy.conf.template > /etc/nginx/conf.d/proxy.conf && nginx -g 'daemon off;'"
   postgres14:
     image: postgres:14-alpine
