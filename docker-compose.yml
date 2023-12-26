@@ -37,7 +37,7 @@ services:
       context: ./
       dockerfile: ./model/Dockerfile
     ports:
-      - "8001:8001"
+      - "8002:8001"
     env_file: ./model/model/.env
     networks:
       - macro
@@ -52,6 +52,9 @@ services:
       - 8080:82
     networks:
       - macro
+    environment:
+      VITE_API_URL: "http://localhost:8002"
+      VITE_PORTAL_URL: "http://localhost:8080"
   admin:
     build:
       context: ./
@@ -60,6 +63,9 @@ services:
       - 8081:81
     networks:
       - macro
+    environment:
+      VITE_API_URL: "http://localhost:8002"
+      VITE_PORTAL_URL: "http://localhost:8080"
 volumes:
   data-postgres:
 networks:

@@ -19,5 +19,6 @@ RUN yarn build
 FROM nginx:latest
 COPY --from=build-deps /usr/src/app/dist /usr/share/nginx/html
 COPY ./web/nginx/default.conf /etc/nginx/conf.d/
+
 EXPOSE 82
 CMD ["nginx", "-g", "daemon off;"]
