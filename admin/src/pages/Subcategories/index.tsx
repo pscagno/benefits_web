@@ -7,7 +7,7 @@ import CustomButton from 'components/Button'
 import DeleteConfirmationModal from 'components/DeleteConfirmationModal'
 import ErrorMessage from 'components/ErrorMessage'
 import Loading from 'components/Loading'
-import BasicTable from 'components/Table'
+import SortableTable from 'components/SortableTable'
 import { useGetSubCategories } from 'hooks/useGetSubCategories'
 import useModal from 'hooks/useModal'
 import useRedirect from 'hooks/useRedirect'
@@ -41,8 +41,6 @@ function SubCategories() {
 
 	const columns = useColumns({ handleDelete, handleEdit })
 
-	console.log('columns (subcategory):', columns)
-
 	const arrayToFilter: (keyof DataItem)[] = ['name']
 
 	const { filteredDataHook, SearchInput } = useSearch(
@@ -75,7 +73,12 @@ function SubCategories() {
 
 				<CustomButton onClick={handleAdd} text='Agregar Subcategoría' />
 				{SearchInput}
-				<BasicTable columns={columns} data={filteredDataHook} />
+				<SortableTable
+					columns={columns}
+					data={filteredDataHook}
+					order='asc'
+					orderBy='name'
+				/>
 			</Box>
 		)
 	}

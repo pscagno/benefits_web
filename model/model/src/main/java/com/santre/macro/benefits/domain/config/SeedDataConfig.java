@@ -1,13 +1,16 @@
 package com.santre.macro.benefits.domain.config;
 
 import com.santre.macro.benefits.domain.entity.CategoryEntity;
+import com.santre.macro.benefits.domain.entity.ImageHomeCarrouselEntity;
 import com.santre.macro.benefits.domain.entity.ProvinceEntity;
 import com.santre.macro.benefits.domain.entity.Role;
 import com.santre.macro.benefits.domain.entity.UserEntity;
 import com.santre.macro.benefits.domain.repository.CategoryRepository;
+import com.santre.macro.benefits.domain.repository.ImageHomeCarrouselRepository;
 import com.santre.macro.benefits.domain.repository.ProvinceRepository;
 import com.santre.macro.benefits.domain.repository.UserRepository;
 import com.santre.macro.benefits.domain.service.CategoryService;
+import com.santre.macro.benefits.domain.service.ImageHomeCarrouselService;
 import com.santre.macro.benefits.domain.service.ProvinceService;
 import com.santre.macro.benefits.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,8 @@ public class SeedDataConfig implements CommandLineRunner {
     private final ProvinceService provinceService;
     private final CategoryRepository categoryRepository;
     private final CategoryService categoryService;
+    private final ImageHomeCarrouselRepository homeRepository;
+    private final ImageHomeCarrouselService homeService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -82,13 +87,24 @@ public class SeedDataConfig implements CommandLineRunner {
             provinceService.save(prov7);
         }
 
+        if (homeRepository.count() == 0) {
+            ImageHomeCarrouselEntity img1 = new ImageHomeCarrouselEntity();
+            img1.setName("Image 1");
+            img1.setImageHeader(
+                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/slide_01-d.jpg")));
+            img1.setImageHeaderMobile(
+                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/slide_01-m.jpg")));
+            homeService.save(img1);
+        }
+
         if (categoryRepository.count() == 0) {
             CategoryEntity cat1 = new CategoryEntity();
             cat1.setName("Balance");
             cat1.setOrderInMenu(1);
             cat1.setColor("#009900");
-            cat1.setImageHeader(Files.readAllBytes(Paths.get("./src/main/resources/static/images/balance.png")));
-            cat1.setImageHeaderMobile(Files.readAllBytes(Paths.get("./src/main/resources/static/images/balance.png")));
+            cat1.setImageHeader(Files.readAllBytes(Paths.get("./src/main/resources/static/images/balance-d.jpg")));
+            cat1.setImageHeaderMobile(
+                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/balance-m.jpg")));
             cat1.setImageMenu(Files.readAllBytes(Paths.get("./src/main/resources/static/images/balance.png")));
             categoryService.save(cat1);
 
@@ -96,8 +112,8 @@ public class SeedDataConfig implements CommandLineRunner {
             cat2.setName("Salud");
             cat2.setOrderInMenu(2);
             cat2.setColor("#999900");
-            cat2.setImageHeader(Files.readAllBytes(Paths.get("./src/main/resources/static/images/salud.png")));
-            cat2.setImageHeaderMobile(Files.readAllBytes(Paths.get("./src/main/resources/static/images/salud.png")));
+            cat2.setImageHeader(Files.readAllBytes(Paths.get("./src/main/resources/static/images/salud-d.jpg")));
+            cat2.setImageHeaderMobile(Files.readAllBytes(Paths.get("./src/main/resources/static/images/salud-m.jpg")));
             cat2.setImageMenu(Files.readAllBytes(Paths.get("./src/main/resources/static/images/salud.png")));
             categoryService.save(cat2);
 
@@ -105,9 +121,10 @@ public class SeedDataConfig implements CommandLineRunner {
             cat3.setName("Celebraciones");
             cat3.setOrderInMenu(3);
             cat3.setColor("#FF9999");
-            cat3.setImageHeader(Files.readAllBytes(Paths.get("./src/main/resources/static/images/celebraciones.png")));
+            cat3.setImageHeader(
+                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/celebraciones-d.jpg")));
             cat3.setImageHeaderMobile(
-                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/celebraciones.png")));
+                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/celebraciones-m.jpg")));
             cat3.setImageMenu(Files.readAllBytes(Paths.get("./src/main/resources/static/images/celebraciones.png")));
             categoryService.save(cat3);
 
@@ -115,9 +132,9 @@ public class SeedDataConfig implements CommandLineRunner {
             cat4.setName("Gastronomia");
             cat4.setOrderInMenu(4);
             cat4.setColor("#009900");
-            cat4.setImageHeader(Files.readAllBytes(Paths.get("./src/main/resources/static/images/gastronomia.png")));
+            cat4.setImageHeader(Files.readAllBytes(Paths.get("./src/main/resources/static/images/gastronomia-d.jpg")));
             cat4.setImageHeaderMobile(
-                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/gastronomia.png")));
+                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/gastronomia-m.jpg")));
             cat4.setImageMenu(Files.readAllBytes(Paths.get("./src/main/resources/static/images/gastronomia.png")));
             categoryService.save(cat4);
 
@@ -125,9 +142,10 @@ public class SeedDataConfig implements CommandLineRunner {
             cat5.setName("Productos Bancarios");
             cat5.setOrderInMenu(5);
             cat5.setColor("#3311FF");
-            cat5.setImageHeader(Files.readAllBytes(Paths.get("./src/main/resources/static/images/prod_bancarios.png")));
+            cat5.setImageHeader(
+                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/prod_bancarios-d.jpg")));
             cat5.setImageHeaderMobile(
-                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/prod_bancarios.png")));
+                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/prod_bancarios-m.jpg")));
             cat5.setImageMenu(Files.readAllBytes(Paths.get("./src/main/resources/static/images/prod_bancarios.png")));
             categoryService.save(cat5);
 
@@ -135,8 +153,9 @@ public class SeedDataConfig implements CommandLineRunner {
             cat6.setName("Celebraciones");
             cat6.setOrderInMenu(5);
             cat6.setColor("#11FF55");
-            cat6.setImageHeader(Files.readAllBytes(Paths.get("./src/main/resources/static/images/campañas.png")));
-            cat6.setImageHeaderMobile(Files.readAllBytes(Paths.get("./src/main/resources/static/images/campañas.png")));
+            cat6.setImageHeader(Files.readAllBytes(Paths.get("./src/main/resources/static/images/campañas-d.jpg")));
+            cat6.setImageHeaderMobile(
+                    Files.readAllBytes(Paths.get("./src/main/resources/static/images/campañas-m.jpg")));
             cat6.setImageMenu(Files.readAllBytes(Paths.get("./src/main/resources/static/images/campañas.png")));
             categoryService.save(cat6);
         }

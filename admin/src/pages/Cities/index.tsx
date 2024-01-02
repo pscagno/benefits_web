@@ -7,7 +7,7 @@ import CustomButton from 'components/Button'
 import DeleteConfirmationModal from 'components/DeleteConfirmationModal'
 import ErrorMessage from 'components/ErrorMessage'
 import Loading from 'components/Loading'
-import BasicTable from 'components/Table'
+import SortableTable from 'components/SortableTable'
 import { useGetCities } from 'hooks/useGetCities'
 import useModal from 'hooks/useModal'
 import useRedirect from 'hooks/useRedirect'
@@ -66,16 +66,19 @@ function Cities() {
 					subtitle='Administra las regiones de tus beneficios desde aquí'
 					title='Regiones'
 				/>
-
 				<DeleteConfirmationModal
 					onClose={handleCloseModal}
 					onConfirm={handleConfirm}
 					open={open}
 				/>
-
 				<CustomButton onClick={handleAdd} text='Agregar Región' />
 				{SearchInput}
-				<BasicTable columns={columns} data={filteredDataHook} />
+				<SortableTable
+					columns={columns}
+					data={filteredDataHook}
+					order='asc'
+					orderBy='name'
+				/>
 			</Box>
 		)
 	}

@@ -41,10 +41,12 @@ public class HomeCarrouselController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(
+            @RequestPart("name") String name,
             @RequestPart("imageHeader") MultipartFile imageHeader,
             @RequestPart("imageHeaderMobile") MultipartFile imageHeaderMobile
     ) throws IOException {
         ImageHomeCarrouselEntity entity = new ImageHomeCarrouselEntity();
+        entity.setName(name);
         entity.setImageHeader(imageHeader.getBytes());
         entity.setImageHeaderMobile(imageHeaderMobile.getBytes());
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(entity));

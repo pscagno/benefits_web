@@ -1,48 +1,46 @@
 import Box from '@mui/material/Box'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import DeleteConfirmationModal from 'components/DeleteConfirmationModal'
 import ErrorMessage from 'components/ErrorMessage'
 import Loading from 'components/Loading'
-import BasicTable from 'components/Table'
+// import BasicTable from 'components/Table'
+import BANNER_BENEFITS from 'assets/images/banner-benefits.png'
+import Banner from 'components/Banner'
+import CustomButton from 'components/Button'
+import SortableTable from 'components/SortableTable'
 import { useGetCategories } from 'hooks/useGetCategories'
 import useModal from 'hooks/useModal'
+import useRedirect from 'hooks/useRedirect'
 import useSearch from 'hooks/useSearch'
 import type { DataItem } from 'hooks/useSearch/types'
 import viewStyles from 'styles/viewStyles'
 
-import BANNER_BENEFITS from '../../assets/images/banner-benefits.png'
-import Banner from '../../components/Banner'
-import CustomButton from '../../components/Button'
 import useDeleteCategory from './hooks/useDeleteCategory'
 import useColumns from './utils/columns'
 
 function Categories() {
+	const redirectTo = useRedirect()
 	const { data, isSuccess, isLoading, isError } = useGetCategories()
 	const { open, handleOpenModal, handleCloseModal } = useModal()
 	const { mutate: deleteCategory } = useDeleteCategory()
 	const [selectedCategory, setSelectedCategory] = useState<number | undefined>()
-
-	const navigate = useNavigate()
 
 	const handleDelete = (id: number) => {
 		setSelectedCategory(id)
 		handleOpenModal()
 	}
 
-	const handleEdit = id => {
-		console.log('Edit', id)
-	}
+	const handleEdit = id => redirectTo(`/categories/edit/${id}`)
 
 	const handleConfirm = () => {
 		deleteCategory(selectedCategory)
 		handleCloseModal()
 	}
 
-	const handleAdd = () => navigate('/categories/add')
+	const handleAdd = () => redirectTo('/categories/add')
 
-	const columns = useColumns({ handleDelete, handleEdit })
+	const columns = useColumns({ handleDelete })
 
 	const arrayToFilter: (keyof DataItem)[] = ['name']
 
@@ -74,7 +72,13 @@ function Categories() {
 
 				<CustomButton onClick={handleAdd} text='Agregar categoría' />
 				{SearchInput}
-				<BasicTable columns={columns} data={filteredDataHook} />
+				{/* <BasicTable columns={columns} data={filteredDataHook} /> */}
+				<SortableTable
+					columns={columns}
+					data={filteredDataHook}
+					order='asc'
+					orderBy='name'
+				/>
 			</Box>
 		)
 	}

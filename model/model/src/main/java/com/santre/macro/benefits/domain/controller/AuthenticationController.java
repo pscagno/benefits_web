@@ -38,6 +38,11 @@ public class AuthenticationController {
         return authenticationService.signup(request);
     }
 
+    @PostMapping("/signupadmin")
+    public JwtAuthenticationResponse signupAdmin(@RequestBody SignUpRequest request) {
+        return authenticationService.signupAdmin(request);
+    }
+
     @PostMapping("/signin")
     public JwtAuthenticationResponse signin(@RequestBody SignInRequest request) {
         return authenticationService.signin(request);
@@ -49,10 +54,13 @@ public class AuthenticationController {
         var users = new ArrayList<UserRest>();
         for (var user : usersService.getAll()){
             UserRest rest = new UserRest();
+            rest.setId(user.getId());
             rest.setFirstName(user.getFirstName());
             rest.setLastName(user.getLastName());
-            rest.setCityName(user.getCity().getName());
-            rest.setCityId(user.getCity().getId());
+            if (user.getCity() != null) {
+                rest.setCityName(user.getCity().getName());
+                rest.setCityId(user.getCity().getId());
+            }
             rest.setEmail(user.getEmail());
             rest.setCategories(new ArrayList<>());
             for (var category: user.getCategories()){
@@ -61,6 +69,21 @@ public class AuthenticationController {
                 categoryRest.setId(category.getId());
                 rest.getCategories().add(categoryRest);
             }
+            users.add(rest);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(users);
+    }
+
+    @GetMapping("/admins")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> listAllAdmins(){
+        var users = new ArrayList<UserAdminRest>();
+        for (var user : usersService.getAllAdmins()){
+            UserAdminRest rest = new UserAdminRest();
+            rest.setId(user.getId());
+            rest.setFirstName(user.getFirstName());
+            rest.setLastName(user.getLastName());
+            rest.setEmail(user.getEmail());
             users.add(rest);
         }
         return ResponseEntity.status(HttpStatus.OK).body(users);

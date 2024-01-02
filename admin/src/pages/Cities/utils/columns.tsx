@@ -2,13 +2,14 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 
 const useColumns = ({ handleDelete, handleEdit }) => [
-	{ id: 'id', label: 'ID', align: 'left' },
-	{ id: 'name', label: 'Nombre', align: 'left' },
+	{ id: 'id', label: 'ID', align: 'left', sortable: true },
+	{ id: 'name', label: 'Nombre', align: 'left', sortable: true },
 	{
 		id: 'province',
 		label: 'Provincia',
 		align: 'left',
-		render: rowData => rowData.province.name
+		render: rowData => rowData.province.name,
+		sortable: true
 	},
 	{
 		id: 'action',

@@ -2,15 +2,8 @@ import axios from 'axios'
 
 import config from '../config'
 
-interface Config {
-	baseURL: string
-	token: string
-}
-
-const apiConfig: Config = config
-
 const api = axios.create({
-	baseURL: apiConfig.baseURL,
+	baseURL: config.baseURL
 })
 
 export const addBearerToken = (token: string) => {

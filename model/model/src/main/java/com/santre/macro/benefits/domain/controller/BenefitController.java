@@ -97,6 +97,30 @@ public class BenefitController {
         }
     }
 
+    @GetMapping("all")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public List<BenefitLightRest> listAll(){
+        var benefits = service.getAll();
+        var benefitsLight = new ArrayList<BenefitLightRest>();
+        for (var benefit:benefits){
+            var rest = new BenefitLightRest();
+            rest.setId(benefit.getId());
+            rest.setTitle(benefit.getTitle());
+            rest.setDescription(benefit.getDescription());
+            rest.setText(benefit.getText());
+            rest.setCategoryName(benefit.getSubcategory().getCategory().getName());
+            rest.setSubcategoryName(benefit.getSubcategory().getName());
+            rest.setLink(benefit.getLink());
+            rest.setInHome(benefit.isInHome());
+            rest.setUserCreation(benefit.getUserCreation());
+            rest.setDateCreation(benefit.getDateCreation());
+            rest.setDateExpiration(benefit.getDateExpiration());
+            rest.setRegions(benefit.getRegionsDescription());
+            benefitsLight.add(rest);
+        }
+        return benefitsLight;
+    }
+
     @GetMapping("reportAverage")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> listReport(@RequestHeader (name="Authorization") String token){
@@ -300,8 +324,8 @@ public class BenefitController {
             @RequestPart("imageHeader") MultipartFile imageHeader,
             @RequestPart("imageHeaderMobile") MultipartFile imageHeaderMobile,
             @RequestPart("imageLists") MultipartFile imageList,
-            @RequestPart("imageDetails1") MultipartFile imageDetails1,
-            @RequestPart("imageDetails2") MultipartFile imageDetails2,
+            @RequestParam(required = false) MultipartFile imageDetails1,
+            @RequestParam(required = false) MultipartFile imageDetails2,
             BindingResult result) throws IOException {
         try {
             var optionalSubcategory = subCategoryService.getById(benefit.getSubcategory().getId());
@@ -309,14 +333,16 @@ public class BenefitController {
                 throw new Exception("Bad request: Subcategory id " + benefit.getSubcategory().getId() + " doesn't exist.");
             }
             Optional<UserEntity> userOpt = getTokenUser(token);
-            if (userOpt.isPresent()) {
-                benefit.setUserCreation(userOpt.get().getFirstName() + " " + userOpt.get().getLastName());
-            }
+            userOpt.ifPresent(userEntity -> benefit.setUserCreation(userEntity.getFirstName() + " " + userEntity.getLastName()));
             benefit.setImageHeader(imageHeader.getBytes());
             benefit.setImageHeaderMobile(imageHeaderMobile.getBytes());
             benefit.setImageList(imageList.getBytes());
-            benefit.setImageDetails1(imageDetails1.getBytes());
-            benefit.setImageDetails2(imageDetails2.getBytes());
+            if (imageDetails1 != null) {
+                benefit.setImageDetails1(imageDetails1.getBytes());
+            }
+            if (imageDetails2 != null) {
+                benefit.setImageDetails2(imageDetails2.getBytes());
+            }
 
             return ResponseEntity
                     .status(HttpStatus.CREATED)
@@ -332,11 +358,11 @@ public class BenefitController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> edit(
             @RequestPart("benefit") BenefitEntity benefit,
-            @RequestPart("imageHeader") Optional<MultipartFile> imageHeader,
-            @RequestPart("imageHeaderMobile") Optional<MultipartFile> imageHeaderMobile,
-            @RequestPart("imageLists") Optional<MultipartFile> imageList,
-            @RequestPart("imageDetails1") Optional<MultipartFile> imageDetails1,
-            @RequestPart("imageDetails2") Optional<MultipartFile> imageDetails2,
+            @RequestParam(required = false) MultipartFile imageHeader,
+            @RequestParam(required = false) MultipartFile imageHeaderMobile,
+            @RequestParam(required = false) MultipartFile imageList,
+            @RequestParam(required = false) MultipartFile imageDetails1,
+            @RequestParam(required = false) MultipartFile imageDetails2,
             BindingResult result,
             @PathVariable Long id){
         if (result.hasErrors()){
@@ -355,21 +381,21 @@ public class BenefitController {
             benefitDb.setText(benefit.getText());
             benefitDb.setTitle(benefit.getTitle());
 
-            imageList.ifPresent(multipartFile -> {
-                try { benefitDb.setImageList(multipartFile.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
-            });
-            imageHeader.ifPresent(multipartFile -> {
-                try { benefitDb.setImageHeader(multipartFile.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
-            });
-            imageHeaderMobile.ifPresent(multipartFile -> {
-                try { benefitDb.setImageHeaderMobile(multipartFile.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
-            });
-            imageDetails1.ifPresent(multipartFile -> {
-                try { benefitDb.setImageDetails1(multipartFile.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
-            });
-            imageDetails2.ifPresent(multipartFile -> {
-                try { benefitDb.setImageDetails2(multipartFile.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
-            });
+            if (imageList != null && !imageList.isEmpty()) {
+                try { benefitDb.setImageList(imageList.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
+            }
+            if (imageHeader != null && !imageHeader.isEmpty()) {
+                try { benefitDb.setImageHeader(imageHeader.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
+            }
+            if (imageHeaderMobile != null && !imageHeaderMobile.isEmpty()) {
+                try { benefitDb.setImageHeaderMobile(imageHeaderMobile.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
+            }
+            if (imageDetails1 != null && !imageDetails1.isEmpty()) {
+                try { benefitDb.setImageDetails1(imageDetails1.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
+            }
+            if (imageDetails2 != null && !imageDetails2.isEmpty()) {
+                try { benefitDb.setImageDetails2(imageDetails2.getBytes()); } catch (IOException e) { throw new RuntimeException(e); }
+            }
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(service.save(benefitDb));

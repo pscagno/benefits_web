@@ -8,7 +8,7 @@ import CustomButton from 'components/Button'
 import DeleteConfirmationModal from 'components/DeleteConfirmationModal'
 import ErrorMessage from 'components/ErrorMessage'
 import Loading from 'components/Loading'
-import BasicTable from 'components/Table'
+import SortableTable from 'components/SortableTable'
 import { useGetHomeCarrousel } from 'hooks/useGetHomeCarousel'
 import useModal from 'hooks/useModal'
 import viewStyles from 'styles/viewStyles'
@@ -72,7 +72,12 @@ function HomeCarrousel() {
 				/>
 
 				<CustomButton onClick={handleAdd} text='Agregar Imágenes' />
-				<BasicTable columns={columns} data={homeCarrousel} />
+				<SortableTable
+					columns={columns}
+					data={homeCarrousel}
+					order='asc'
+					orderBy='name'
+				/>
 			</Box>
 		)
 	}

@@ -2,10 +2,13 @@ import Box from '@mui/material/Box'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import BANNER_BENEFITS from 'assets/images/banner-benefits.png'
+import Banner from 'components/Banner'
+import CustomButton from 'components/Button'
 import DeleteConfirmationModal from 'components/DeleteConfirmationModal'
 import ErrorMessage from 'components/ErrorMessage'
 import Loading from 'components/Loading'
-import BasicTable from 'components/Table'
+import SortableTable from 'components/SortableTable'
 import { useGetProvinces } from 'hooks/useGetProvinces'
 import useModal from 'hooks/useModal'
 import useRedirect from 'hooks/useRedirect'
@@ -13,9 +16,6 @@ import useSearch from 'hooks/useSearch'
 import type { DataItem } from 'hooks/useSearch/types'
 import viewStyles from 'styles/viewStyles'
 
-import BANNER_BENEFITS from '../../assets/images/banner-benefits.png'
-import Banner from '../../components/Banner'
-import CustomButton from '../../components/Button'
 import useDeleteProvince from './hooks/useDeleteProvince'
 import useColumns from './utils/columns'
 
@@ -73,7 +73,12 @@ function Provinces() {
 
 				<CustomButton onClick={handleAdd} text='Agregar provincia' />
 				{SearchInput}
-				<BasicTable columns={columns} data={filteredDataHook} />
+				<SortableTable
+					columns={columns}
+					data={filteredDataHook}
+					order='asc'
+					orderBy='name'
+				/>
 			</Box>
 		)
 	}

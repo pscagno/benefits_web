@@ -1,12 +1,18 @@
 import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 
 const useColumns = ({ handleDelete, handleEdit }) => [
-	{ id: 'averageQualification', label: 'Calificación' },
-	{ id: 'id', label: 'ID', align: 'left' },
-	{ id: 'title', label: 'Título', align: 'left' },
-	{ id: 'categoryName', label: 'Categoría', align: 'left' },
-	{ id: 'subcategoryName', label: 'Subcategoría', align: 'left' },
-	{ id: 'userCreation', label: 'Creado Por', align: 'left' },
+	{ id: 'averageQualification', label: 'Calificación', sortable: true },
+	{ id: 'id', label: 'ID', align: 'left', sortable: true },
+	{ id: 'title', label: 'Título', align: 'left', sortable: true },
+	{ id: 'categoryName', label: 'Categoría', align: 'left', sortable: true },
+	{
+		id: 'subcategoryName',
+		label: 'Subcategoría',
+		align: 'left',
+		sortable: true
+	},
+	{ id: 'userCreation', label: 'Creado Por', align: 'left', sortable: true },
 	{
 		id: 'dateCreation',
 		label: 'Fecha de Creación',
@@ -14,7 +20,8 @@ const useColumns = ({ handleDelete, handleEdit }) => [
 		render(rowData) {
 			const date = new Date(rowData.dateCreation)
 			return date.toLocaleDateString()
-		}
+		},
+		sortable: true
 	},
 	{
 		id: 'link',
@@ -29,14 +36,17 @@ const useColumns = ({ handleDelete, handleEdit }) => [
 			</a>
 		)
 	},
-	// {
-	//   id: 'action',
-	//   label: 'Detalle',
-	//   align: 'center',
-	//   render: (rowData) => (
-	//     <EditIcon className='cursor-pointer' onClick={handleEdit} />
-	//   ),
-	// },
+	{
+		id: 'action',
+		label: 'Detalle',
+		align: 'center',
+		render: rowData => (
+			<EditIcon
+				className='cursor-pointer'
+				onClick={() => handleEdit(rowData.id)}
+			/>
+		)
+	},
 	{
 		id: 'action',
 		label: 'Eliminar',

@@ -54,7 +54,7 @@ const useSearch = (
 	}
 
 	const SearchInput = (
-		<div className='mb-4 ml-2'>
+		<div className='my-4 ml-2'>
 			<TextField
 				className='max-w-[700px]'
 				id='outlined-search'

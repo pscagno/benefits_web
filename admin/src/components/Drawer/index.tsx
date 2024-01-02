@@ -106,15 +106,13 @@ const menuItems = [
 		id: 8,
 		text: 'Reporte de uso',
 		icon: <HomeIcon />,
-		path: '/use-report',
-		disabled: true
+		path: '/use-report'
 	},
 	{
 		id: 9,
 		text: 'Reporte de calificaciones',
 		icon: <HomeIcon />,
-		path: '/qualifications-report',
-		disabled: true
+		path: '/qualifications-report'
 	}
 ]
 

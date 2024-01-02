@@ -2,17 +2,18 @@ import Box from '@mui/material/Box'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import BANNER_BENEFITS from 'assets/images/banner-benefits.png'
+import Banner from 'components/Banner'
+import CustomButton from 'components/Button'
+import DeleteConfirmationModal from 'components/DeleteConfirmationModal'
 import ErrorMessage from 'components/ErrorMessage'
 import Loading from 'components/Loading'
+import SortableTable from 'components/SortableTable'
 import { useGetBenefits } from 'hooks/useGetBenefits'
 import useModal from 'hooks/useModal'
+import useRedirect from 'hooks/useRedirect'
 import viewStyles from 'styles/viewStyles'
 
-import BANNER_BENEFITS from '../../assets/images/banner-benefits.png'
-import Banner from '../../components/Banner'
-import CustomButton from '../../components/Button'
-import DeleteConfirmationModal from '../../components/DeleteConfirmationModal'
-import BasicTable from '../../components/Table'
 import useDeleteBenefit from './hooks/useDeleteBenefit'
 import useColumns from './utils/columns'
 
@@ -22,8 +23,7 @@ function Benefits() {
 	const { mutate: deleteBenefit } = useDeleteBenefit()
 	const [selectedBenefit, setSelectedBenefit] = useState<number | undefined>()
 
-	console.log('benefits:', benefits)
-
+	const redirectTo = useRedirect()
 	const navigate = useNavigate()
 
 	const handleDelete = (id: number) => {
@@ -31,9 +31,7 @@ function Benefits() {
 		handleOpenModal()
 	}
 
-	const handleEdit = id => {
-		console.log('Edit', id)
-	}
+	const handleEdit = id => redirectTo(`/benefit/edit/${id}`)
 
 	const handleConfirm = () => {
 		deleteBenefit(selectedBenefit)
@@ -65,7 +63,12 @@ function Benefits() {
 				/>
 
 				<CustomButton onClick={handleAdd} text='Agregar Beneficio' />
-				<BasicTable columns={columns} data={benefits} />
+				<SortableTable
+					columns={columns}
+					data={benefits}
+					order='asc'
+					orderBy='name'
+				/>
 			</Box>
 		)
 	}

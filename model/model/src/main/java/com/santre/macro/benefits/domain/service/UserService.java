@@ -1,6 +1,7 @@
 package com.santre.macro.benefits.domain.service;
 
 
+import com.santre.macro.benefits.domain.entity.Role;
 import com.santre.macro.benefits.domain.entity.UserEntity;
 import com.santre.macro.benefits.domain.repository.UserRepository;
 import com.santre.macro.benefits.domain.repository.CategoryRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +27,10 @@ public class UserService {
 
     public List<UserEntity> getAll(){
         return  userRepository.findAll();
+    }
+
+    public List<UserEntity> getAllAdmins(){
+        return userRepository.findByRole(Role.ROLE_ADMIN);
     }
 
     public Optional<UserEntity> getById(Long id){

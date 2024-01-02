@@ -18,12 +18,6 @@ function AddCategory() {
 		createCategory(categoryData)
 	}
 
-	// if (isLoading) return <Loading />
-
-	// if (isError)
-	// 	return <ErrorMessage message='Ocurrió un error al cargar los beneficios.' />
-
-	// if (isSuccess && subCategoriesIsSuccess) {
 	return (
 		<Box sx={viewStyles.container}>
 			<Banner
@@ -35,6 +29,5 @@ function AddCategory() {
 		</Box>
 	)
 }
-// }
 
 export default AddCategory

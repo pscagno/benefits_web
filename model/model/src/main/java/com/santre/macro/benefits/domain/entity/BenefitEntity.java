@@ -53,26 +53,29 @@ public class BenefitEntity {
     @NotEmpty
     @Lob
     @Column(length = 2000)
+    @Basic(fetch=FetchType.LAZY)
     private byte[] imageHeader;
 
     @NotEmpty
     @Lob
     @Column(length = 2000)
+    @Basic(fetch=FetchType.LAZY)
     private byte[] imageHeaderMobile;
 
     @NotEmpty
     @Lob
     @Column(length = 2000)
+    @Basic(fetch=FetchType.LAZY)
     private byte[] imageList;
 
-    @NotEmpty
     @Lob
     @Column(length = 2000)
+    @Basic(fetch=FetchType.LAZY)
     private byte[] imageDetails1;
 
-    @NotEmpty
     @Lob
     @Column(length = 2000)
+    @Basic(fetch=FetchType.LAZY)
     private byte[] imageDetails2;
 
     @OneToMany(mappedBy = "benefit")
@@ -91,8 +94,13 @@ public class BenefitEntity {
                 output.append(" / ");
                 output.append(region.getCity().getName());
             }
+            output.append(" - ");
         }
-        return output.toString();
+        var regions = output.toString();
+        if (regions.isEmpty()) {
+            regions = "Argentina";
+        }
+        return regions;
     }
 
     @JsonIgnore

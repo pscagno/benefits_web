@@ -3,6 +3,7 @@ package com.santre.macro.benefits.domain.service;
 import com.santre.macro.benefits.domain.entity.CategoryEntity;
 import com.santre.macro.benefits.domain.entity.SubcategoryEntity;
 import com.santre.macro.benefits.domain.entity.UserEntity;
+import com.santre.macro.benefits.domain.repository.BenefitQualificationRepository;
 import com.santre.macro.benefits.domain.repository.BenefitRepository;
 import com.santre.macro.benefits.domain.entity.BenefitEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class BenefitServiceImpl implements  BenefitService {
 
     @Autowired
     BenefitRepository repository;
+    @Autowired
+    private BenefitQualificationRepository benefitQualificationRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -108,6 +111,11 @@ public class BenefitServiceImpl implements  BenefitService {
     @Override
     @Transactional
     public void delete(Long id) {
+        var benefitOpt = repository.findById(id);
+        if (benefitOpt.isPresent()){
+            var qualifications = benefitOpt.get().getQualifications();
+            benefitQualificationRepository.deleteAll(qualifications);
+        }
         repository.deleteById(id);
     }
 

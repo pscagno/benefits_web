@@ -1,6 +1,7 @@
 export interface DataItem {
 	id: number
 	name: string
+	title?: string
 	province?: {
 		id: number
 		name: string
